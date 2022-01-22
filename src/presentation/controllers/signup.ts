@@ -7,31 +7,52 @@ import {
 import { InvalidParamError, MissingParamError } from '../errors'
 import { badRequest, serverError } from '../helpers'
 
+interface BodyProps {
+  name: string
+  email: string
+  password: string
+  passwordConfirm: string
+}
+
 export class SignUpController implements Controller {
   constructor(private readonly emailValidator: EmailValidator) {}
   handler = (httpRequest: HttpRequest): HttpResponse => {
-    const missingParam = ['name', 'email', 'password', 'passwordConfirm'].find(
-      param => !httpRequest.body[param]
-    )
-
-    if (missingParam) {
-      return badRequest(new MissingParamError(missingParam))
-    }
-    if (httpRequest.body.password !== httpRequest.body.passwordConfirm) {
-      return badRequest(new InvalidParamError('passwordConfirm'))
-    }
     try {
-      const isValid = this.emailValidator.isValid(httpRequest.body.email)
-      if (!isValid) {
-        return badRequest(new InvalidParamError('email'))
+      this.checkParams(httpRequest.body)
+      this.checkPasswordConfirm(httpRequest.body)
+      this.checkEmailValidator(httpRequest.body)
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.name === 'Error') return serverError()
+        return badRequest(error)
       }
-    } catch {
-      return serverError()
     }
-
     return {
       statusCode: 200,
       body: {}
+    }
+  }
+
+  private checkParams(body: BodyProps): void {
+    const missingParam = ['name', 'email', 'password', 'passwordConfirm'].find(
+      param => !Object.prototype.hasOwnProperty.call(body, param)
+    )
+
+    if (missingParam) {
+      throw new MissingParamError(missingParam)
+    }
+  }
+
+  private checkPasswordConfirm(body: BodyProps): void {
+    if (body.password !== body.passwordConfirm) {
+      throw new InvalidParamError('passwordConfirm')
+    }
+  }
+
+  private checkEmailValidator(body: BodyProps): void {
+    const isValid = this.emailValidator.isValid(body.email)
+    if (!isValid) {
+      throw new InvalidParamError('email')
     }
   }
 }
