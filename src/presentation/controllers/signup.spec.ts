@@ -2,7 +2,7 @@ import { InvalidParamError } from '../errors/invalidParamError'
 import { MissingParamError } from '../errors/missingParamError'
 import { SignUpController } from './signup'
 
-class EmailValidator {
+class EmailValidatorStub {
   isValid(email: string): boolean {
     return true
   }
@@ -10,13 +10,13 @@ class EmailValidator {
 
 interface SutTypes {
   sut: SignUpController
-  emailValidator: EmailValidator
+  emailValidatorStub: EmailValidatorStub
 }
 
 const makeSut = (): SutTypes => {
-  const emailValidator = new EmailValidator()
-  const sut = new SignUpController(emailValidator)
-  return { sut, emailValidator }
+  const emailValidatorStub = new EmailValidatorStub()
+  const sut = new SignUpController(emailValidatorStub)
+  return { sut, emailValidatorStub }
 }
 
 describe('SignUp Controller', () => {
@@ -77,8 +77,8 @@ describe('SignUp Controller', () => {
   })
 
   it('Should return http error 400 if an invalidad email is provided', () => {
-    const { sut, emailValidator } = makeSut()
-    jest.spyOn(emailValidator, 'isValid').mockReturnValueOnce(false)
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -93,8 +93,8 @@ describe('SignUp Controller', () => {
   })
 
   it('Should call EmailValidator with correct email', () => {
-    const { sut, emailValidator } = makeSut()
-    const isValidSpy = jest.spyOn(emailValidator, 'isValid')
+    const { sut, emailValidatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
     const httpRequest = {
       body: {
         name: 'any_name',
