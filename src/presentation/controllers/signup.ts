@@ -6,6 +6,7 @@ import {
 } from '../protocols'
 import { InvalidParamError, MissingParamError } from '../errors'
 import { badRequest, serverError } from '../helpers'
+import { AddAccount } from '../../domain/usecases/addAccount'
 
 interface BodyProps {
   name: string
@@ -15,18 +16,30 @@ interface BodyProps {
 }
 
 export class SignUpController implements Controller {
-  constructor(private readonly emailValidator: EmailValidator) {}
-  handler = (httpRequest: HttpRequest): HttpResponse => {
+  constructor(
+    private readonly emailValidator: EmailValidator,
+    private readonly addAccount: AddAccount
+  ) {}
+
+  public handler = (httpRequest: HttpRequest): HttpResponse => {
+    const { body } = httpRequest
+
     try {
-      this.checkParams(httpRequest.body)
-      this.checkPasswordConfirm(httpRequest.body)
-      this.checkEmailValidator(httpRequest.body)
+      this.checkParams(body)
+      this.checkPasswordConfirm(body)
+      this.checkEmailValidator(body)
+      this.addAccount.add({
+        name: body.name,
+        email: body.email,
+        password: body.password
+      })
     } catch (error) {
       if (error instanceof Error) {
         if (error.name === 'Error') return serverError()
         return badRequest(error)
       }
     }
+
     return {
       statusCode: 200,
       body: {}
