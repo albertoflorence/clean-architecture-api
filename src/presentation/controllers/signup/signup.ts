@@ -25,26 +25,22 @@ export class SignUpController implements Controller {
 
   public handler = (httpRequest: HttpRequest): HttpResponse => {
     const { body } = httpRequest
+    const { name, email, password } = body
 
     try {
       this.checkParams(body)
       this.checkPasswordConfirm(body)
       this.checkEmailValidator(body)
-      this.addAccount.add({
-        name: body.name,
-        email: body.email,
-        password: body.password
-      })
+      const account = this.addAccount.add({ name, email, password })
+      return {
+        statusCode: 200,
+        body: account
+      }
     } catch (error) {
-      if (error instanceof Error) {
-        if (error.name === 'Error') return serverError()
+      if (error instanceof Error && error.name !== 'Error') {
         return badRequest(error)
       }
-    }
-
-    return {
-      statusCode: 200,
-      body: {}
+      return serverError()
     }
   }
 
