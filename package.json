@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --noStackTrace -c jest-unit.config.js",
-    "test:watch": "npm test -- --watch",
+    "test:watch": "npm test -- --watch --verbose",
     "test:staged": "jest --findRelatedTests",
     "test:integration": "jest -c jest-integration.config.js",
     "test:ci": "jest --coverage --runInBand"
