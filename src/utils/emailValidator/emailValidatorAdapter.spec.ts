@@ -1,4 +1,4 @@
-import { EmailValidatorAdapter } from './emailValidator'
+import { EmailValidatorAdapter } from './emailValidatorAdapter'
 import { Validator } from './protocols'
 
 interface SutTypes {
@@ -30,8 +30,13 @@ describe('EmailValidator Adaptar', () => {
   })
   it('Should return true if validator return true', () => {
     const { sut } = makeSut()
-
     const isValid = sut.isValid('valid@mail.com')
     expect(isValid).toBe(true)
+  })
+  it('Should call isEmail with correct email', () => {
+    const { sut, validatorStub } = makeSut()
+    const isEmailSpy = jest.spyOn(validatorStub, 'isEmail')
+    sut.isValid('any@mail.com')
+    expect(isEmailSpy).toHaveBeenCalledWith('any@mail.com')
   })
 })
