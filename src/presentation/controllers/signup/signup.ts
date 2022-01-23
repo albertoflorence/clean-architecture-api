@@ -2,11 +2,13 @@ import {
   HttpRequest,
   HttpResponse,
   Controller,
-  EmailValidator
-} from '../protocols'
-import { InvalidParamError, MissingParamError } from '../errors'
-import { badRequest, serverError } from '../helpers'
-import { AddAccount } from '../../domain/usecases/addAccount'
+  EmailValidator,
+  InvalidParamError,
+  MissingParamError,
+  badRequest,
+  serverError,
+  AddAccount
+} from './signupProtocols'
 
 interface BodyProps {
   name: string
