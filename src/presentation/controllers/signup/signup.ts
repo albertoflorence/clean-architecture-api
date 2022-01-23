@@ -7,7 +7,8 @@ import {
   MissingParamError,
   badRequest,
   serverError,
-  AddAccount
+  AddAccount,
+  ok
 } from './signupProtocols'
 
 interface BodyProps {
@@ -32,10 +33,7 @@ export class SignUpController implements Controller {
       this.checkPasswordConfirm(body)
       this.checkEmailValidator(body)
       const account = this.addAccount.add({ name, email, password })
-      return {
-        statusCode: 200,
-        body: account
-      }
+      return ok(account)
     } catch (error) {
       if (error instanceof Error && error.name !== 'Error') {
         return badRequest(error)
