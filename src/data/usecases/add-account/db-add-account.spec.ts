@@ -4,6 +4,7 @@ import { Encrypter } from '../../protocols/encrypter'
 interface SutTypes {
   stu: DbAddAccount
   encrypterStub: Encrypter
+  // dbAccountRepository: Db
 }
 
 class EncrypterStub implements Encrypter {
@@ -28,5 +29,19 @@ describe('DB addAccount', () => {
     }
     await stu.add(account)
     expect(encryptSpy).toHaveBeenCalledWith('valid_password')
+  })
+
+  it('Should throw if Encrypter throws', async () => {
+    const { stu, encrypterStub } = makeSut()
+    jest
+      .spyOn(encrypterStub, 'encrypt')
+      .mockImplementationOnce(async () => await Promise.reject(new Error()))
+    const account = {
+      name: 'valid_name',
+      email: 'valid@mail.com',
+      password: 'valid_password'
+    }
+    const accountAdd = stu.add(account)
+    await expect(accountAdd).rejects.toThrowError(new Error())
   })
 })
