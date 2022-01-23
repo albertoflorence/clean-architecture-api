@@ -9,7 +9,7 @@ import {
   serverError,
   AddAccount,
   ok
-} from './signupProtocols'
+} from './signup-protocols'
 
 interface BodyProps {
   name: string

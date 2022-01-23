@@ -1,4 +1,4 @@
-import { EmailValidatorAdapter } from './emailValidatorAdapter'
+import { EmailValidatorAdapter } from './email-validator-adapter'
 import { Validator } from './protocols'
 
 interface SutTypes {

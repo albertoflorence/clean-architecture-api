@@ -7,7 +7,7 @@ import {
   AddAccountModel,
   AccountModel,
   ServerError
-} from './signupProtocols'
+} from './signup-protocols'
 
 interface SutTypes {
   sut: SignUpController
