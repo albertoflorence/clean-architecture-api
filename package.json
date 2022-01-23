@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --verbose",
-    "test:staged": "jest --passWithNoTests"
+    "test": "jest --noStackTrace -c jest-unit.config.js",
+    "test:watch": "npm test",
+    "test:staged": "jest --findRelatedTests",
+    "test:integration": "jest -c jest-integration.config.js",
+    "test:ci": "jest --coverage --runInBand"
   },
   "keywords": [],
   "author": "",
