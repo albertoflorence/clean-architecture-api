@@ -24,7 +24,7 @@ export class SignUpController implements Controller {
     private readonly addAccount: AddAccount
   ) {}
 
-  public handler = (httpRequest: HttpRequest): HttpResponse => {
+  public handler = async (httpRequest: HttpRequest): Promise<HttpResponse> => {
     const { body } = httpRequest
     const { name, email, password } = body
 
@@ -32,8 +32,9 @@ export class SignUpController implements Controller {
       this.checkParams(body)
       this.checkPasswordConfirm(body)
       this.checkEmailValidator(body)
-      const account = this.addAccount.add({ name, email, password })
-      return ok(account)
+      return await this.addAccount
+        .add({ name, email, password })
+        .then(account => ok(account))
     } catch (error) {
       if (error instanceof Error && error.name !== 'Error') {
         return badRequest(error)
