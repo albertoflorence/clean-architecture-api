@@ -91,4 +91,20 @@ describe('DB addAccount', () => {
     const accountAdd = sut.add(account)
     await expect(accountAdd).rejects.toThrowError(new Error())
   })
+
+  it('Should return a account on success', async () => {
+    const { sut } = makeSut()
+    const account = {
+      name: 'valid_name',
+      email: 'valid@mail.com',
+      password: 'valid_password'
+    }
+    const createdAccount = await sut.add(account)
+    expect(createdAccount).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid@mail.com',
+      password: 'encrypted_valid_password'
+    })
+  })
 })
