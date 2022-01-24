@@ -9,11 +9,11 @@ import {
 export class DbAddAccount implements AddAccount {
   constructor(
     private readonly encrypter: Encrypter,
-    private readonly AddAccountRepository: AddAccountRepository
+    private readonly addAccountRepository: AddAccountRepository
   ) {}
 
   add = async (account: AddAccountModel): Promise<AccountModel> => {
-    return await this.AddAccountRepository.add({
+    return await this.addAccountRepository.add({
       ...account,
       password: await this.encrypter.encrypt(account.password)
     })
