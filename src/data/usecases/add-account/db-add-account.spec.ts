@@ -14,7 +14,7 @@ interface SutTypes {
 
 class EncrypterStub implements Encrypter {
   encrypt = async (string: string): Promise<string> =>
-    await Promise.resolve('encrypted_valid_password')
+    'encrypted_valid_password'
 }
 
 class AddAccountRepositoryStub implements AddAccountRepository {

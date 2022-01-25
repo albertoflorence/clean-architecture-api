@@ -11,7 +11,7 @@ const makeSut = (): SutTypes => {
 }
 
 jest.mock('bcrypt', () => ({
-  hash: async () => await Promise.resolve('hashed_any_value')
+  hash: async () => 'hashed_any_value'
 }))
 
 describe('BcryptAdapter Adapter', () => {

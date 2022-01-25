@@ -9,11 +9,11 @@ export class AccountMongoRepository implements AddAccountRepository {
       .getCollection('accounts')
       .insertOne(account)
 
-    return await Promise.resolve({
+    return {
       id: result.insertedId.toString(),
       name: account.name,
       email: account.email,
       password: account.password
-    })
+    }
   }
 }
