@@ -1,17 +1,17 @@
-import { mongoDbHelper } from '../helpers/mongo-helper'
+import { MongoDbHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account'
 
 describe('Account MongoDb Repository', () => {
   beforeAll(async () => {
-    await mongoDbHelper.connect(process.env.MONGO_URL as string)
+    await MongoDbHelper.connect(process.env.MONGO_URL as string)
   })
 
   afterAll(async () => {
-    await mongoDbHelper.disconnect()
+    await MongoDbHelper.disconnect()
   })
 
   beforeEach(async () => {
-    await mongoDbHelper.getCollection('accounts').deleteMany({})
+    await MongoDbHelper.getCollection('accounts').deleteMany({})
   })
 
   const makeSut = (): AccountMongoRepository => {

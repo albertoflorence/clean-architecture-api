@@ -1,25 +1,20 @@
 import { Collection, MongoClient } from 'mongodb'
 
-class MongodbHelper {
-  static instance: MongoClient
-  static connect = async (uri: string): Promise<MongoClient> => {
-    MongodbHelper.instance = await MongoClient.connect(uri)
-    return MongodbHelper.instance
+export class MongoDbHelper {
+  private static instance: MongoDbHelper
+
+  static connect = async (uri: string): Promise<MongoDbHelper> => {
+    MongoDbHelper.instance = new MongoDbHelper(await MongoClient.connect(uri))
+    return MongoDbHelper.instance
   }
 
-  connect = async (uri: string): Promise<MongoClient> => {
-    return await MongodbHelper.connect(uri)
+  constructor(private readonly client: MongoClient) {}
+
+  static disconnect = async (): Promise<void> => {
+    await this.instance.client.close()
   }
 
-  disconnect = async (): Promise<void> => {
-    await MongodbHelper.instance.close()
-  }
-
-  getCollection = (name: string): Collection => {
-    return MongodbHelper.instance.db().collection(name)
+  static getCollection = (name: string): Collection => {
+    return this.instance.client.db().collection(name)
   }
 }
-
-const mongoDbHelper = new MongodbHelper()
-
-export { mongoDbHelper }
