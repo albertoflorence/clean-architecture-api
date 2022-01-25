@@ -3,3 +3,4 @@ commitlinterrc.json
 dist
 .a
 coverage
+globalConfig.json
