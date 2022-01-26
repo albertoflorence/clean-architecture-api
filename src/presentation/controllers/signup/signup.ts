@@ -39,7 +39,7 @@ export class SignUpController implements Controller {
       if (error instanceof Error && error.name !== 'Error') {
         return badRequest(error)
       }
-      return serverError()
+      return serverError(error instanceof Error ? error : undefined)
     }
   }
 
