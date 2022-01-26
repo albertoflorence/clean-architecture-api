@@ -1,8 +1,6 @@
 import { EmailValidator, Validator } from './protocols'
-import defaultValidator from 'validator'
-
 export class EmailValidatorAdapter implements EmailValidator {
-  constructor(private readonly validator: Validator = defaultValidator) {}
+  constructor(private readonly validator: Validator) {}
   isValid(email: string): boolean {
     return this.validator.isEmail(email)
   }
