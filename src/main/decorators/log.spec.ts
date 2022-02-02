@@ -47,7 +47,7 @@ describe('LogControllerDecorator', () => {
     expect(handlerSpy).toHaveBeenLastCalledWith(makeFakeRequest())
   })
 
-  it('Should return the hpptResponse of the controller', async () => {
+  it('Should return the httpResponse of the controller', async () => {
     const { sut } = makeSut()
 
     const httpResponse = await sut.handler(makeFakeRequest())
