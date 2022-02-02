@@ -7,6 +7,7 @@ import { AccountMongoRepository } from '../../infra/criptography/db/mongodb/acco
 import { adaptRoute } from '../adapters/express-route-adapter'
 import { LogControllerDecorator } from '../decorators/log'
 import { Controller } from '../../presentation/protocols'
+import { LogErrorMongoRepository } from '../../infra/criptography/db/mongodb/log-repository'
 
 const bcryptSalt = 12
 
@@ -18,7 +19,10 @@ export const makeSignUpController = (): Controller => {
       new AccountMongoRepository()
     )
   )
-  return new LogControllerDecorator(signUpController)
+  return new LogControllerDecorator(
+    signUpController,
+    new LogErrorMongoRepository()
+  )
 }
 
 export const routeSignUpController = adaptRoute(makeSignUpController())
