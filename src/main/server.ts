@@ -1,4 +1,4 @@
-import { MongoDbHelper } from '../infra/criptography/db/mongodb/helpers/mongo-helper'
+import { MongoDbHelper } from '../infra/cryptography/db/mongodb/helpers/mongo-helper'
 
 import env from './config/env'
 

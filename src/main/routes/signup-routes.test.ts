@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { MongoDbHelper } from '../../infra/criptography/db/mongodb/helpers/mongo-helper'
+import { MongoDbHelper } from '../../infra/cryptography/db/mongodb/helpers/mongo-helper'
 import app from '../config/app'
 
 describe('SignUp Routes', () => {
