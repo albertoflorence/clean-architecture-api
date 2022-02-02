@@ -45,7 +45,7 @@ export class SignUpController implements Controller {
 
   private checkParams(body: BodyProps): void {
     const missingParam = ['name', 'email', 'password', 'passwordConfirm'].find(
-      param => !Object.prototype.hasOwnProperty.call(body, param)
+      param => !(param in body)
     )
 
     if (missingParam) {
