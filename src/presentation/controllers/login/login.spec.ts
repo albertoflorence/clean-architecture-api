@@ -7,7 +7,8 @@ import {
   unauthorized,
   HttpRequest,
   Validation,
-  LoginController
+  LoginController,
+  ok
 } from './login-protocols'
 
 interface SutTypes {
@@ -107,5 +108,12 @@ describe('Login Controller', () => {
 
     const httpResponse = await sut.handler(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  it('Should return 200 if valid credentials are provided', async () => {
+    const { sut } = makeSut()
+
+    const httpResponse = await sut.handler(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
   })
 })
