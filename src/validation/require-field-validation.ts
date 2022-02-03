@@ -8,9 +8,9 @@ export class RequireFieldValidation implements Validation {
     this.params = params
   }
 
-  validate(input: Object): Error | false {
+  validate(input: Object): Error | null {
     const missingParam = this.params.find(param => !(param in input))
 
-    return missingParam ? new MissingParamError(missingParam) : false
+    return missingParam ? new MissingParamError(missingParam) : null
   }
 }

@@ -8,14 +8,14 @@ interface SutTypes {
 }
 
 class ValidationStub implements Validation {
-  validate = (input: any): false | Error => {
-    return false
+  validate = (input: any): Error | null => {
+    return null
   }
 }
 
 const makeSut = (): SutTypes => {
   const validations = [new ValidationStub(), new ValidationStub()]
-  const sut = new ValidationComposite(...validations)
+  const sut = new ValidationComposite(validations)
   return { sut, validations }
 }
 describe('Validation Composite', () => {

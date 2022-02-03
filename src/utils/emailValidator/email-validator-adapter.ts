@@ -1,7 +1,7 @@
-import { EmailValidator, Validator } from './protocols'
+import { EmailValidator } from './protocols'
+import validator from 'validator'
 export class EmailValidatorAdapter implements EmailValidator {
-  constructor(private readonly validator: Validator) {}
   isValid(email: string): boolean {
-    return this.validator.isEmail(email)
+    return validator.isEmail(email)
   }
 }

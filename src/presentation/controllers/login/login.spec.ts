@@ -18,7 +18,7 @@ interface SutTypes {
 }
 
 class ValidationStub implements Validation {
-  validate = (input: any): false | Error => false
+  validate = (input: any): Error | null => null
 }
 
 class AuthenticationStub implements Authentication {

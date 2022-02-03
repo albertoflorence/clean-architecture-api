@@ -13,9 +13,17 @@ class EmailValidatorStub implements EmailValidator {
 
 const makeSut = (): SutTypes => {
   const emailValidatorStub = new EmailValidatorStub()
-  const sut = new EmailValidation(emailValidatorStub)
+  const sut = new EmailValidation('field', emailValidatorStub)
   return { sut, emailValidatorStub }
 }
+
+interface InputType {
+  field: string
+}
+
+const makeInput = (): InputType => ({
+  field: 'any_mail@mail.com'
+})
 
 describe('Email Validation', () => {
   it('Should return an InvalidParam error if EmailValidator return false', () => {
@@ -23,13 +31,14 @@ describe('Email Validation', () => {
     jest
       .spyOn(emailValidatorStub, 'isValid')
       .mockImplementationOnce(() => false)
-    const validation = sut.validate('invalid_mail@mail.com')
+
+    const validation = sut.validate(makeInput())
     expect(validation).toEqual(new InvalidParamError('email'))
   })
 
-  it('Should return false if an valid email is provided', () => {
+  it('Should return null if an valid email is provided', () => {
     const { sut } = makeSut()
-    const validation = sut.validate('valid_mail.com')
-    expect(validation).toBeFalsy()
+    const validation = sut.validate(makeInput())
+    expect(validation).toBe(null)
   })
 })
