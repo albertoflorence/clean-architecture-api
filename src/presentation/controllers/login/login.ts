@@ -6,7 +6,8 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
-  Validation
+  Validation,
+  ok
 } from './login-protocols'
 export class LoginController implements Controller {
   constructor(
@@ -20,12 +21,14 @@ export class LoginController implements Controller {
       const error = this.validation.validate(body)
       if (error) return badRequest(error)
 
-      const auth = await this.authentication.auth(body.email, body.password)
-      if (!auth) return unauthorized()
-      return await Promise.resolve({
-        body: null,
-        statusCode: 200
-      })
+      const accessToken = await this.authentication.auth(
+        body.email,
+        body.password
+      )
+
+      if (!accessToken) return unauthorized()
+
+      return ok({ accessToken })
     } catch (error) {
       return serverError(error instanceof Error ? error : undefined)
     }
