@@ -1,28 +1,30 @@
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest } from '../../helpers'
-import { EmailValidator } from '../signup/signup-protocols'
+import { Validation } from '../../protocols/validation'
 import { LoginController } from './login'
 
 interface SutTypes {
   sut: LoginController
-  emailValidatorStub: EmailValidator
+  validation: Validation
 }
 
-class EmailValidatorStub implements EmailValidator {
-  isValid(email: string): boolean {
-    return true
-  }
+class ValidationStub implements Validation {
+  validate = (input: any): false | Error => false
 }
 
 const makeSut = (): SutTypes => {
-  const emailValidatorStub = new EmailValidatorStub()
-  const sut = new LoginController(emailValidatorStub)
-  return { sut, emailValidatorStub }
+  const validation = new ValidationStub()
+  const sut = new LoginController(validation)
+  return { sut, validation }
 }
 
 describe('Login Controller', () => {
   it('Should return 400 if no email is provided', async () => {
-    const { sut } = makeSut()
+    const { sut, validation } = makeSut()
+    jest
+      .spyOn(validation, 'validate')
+      .mockImplementationOnce(() => new MissingParamError('email'))
+
     const httpRequest = {
       body: {
         password: 'valid_password'
@@ -34,7 +36,11 @@ describe('Login Controller', () => {
   })
 
   it('Should return 400 if no password is provided', async () => {
-    const { sut } = makeSut()
+    const { sut, validation } = makeSut()
+    jest
+      .spyOn(validation, 'validate')
+      .mockImplementationOnce(() => new MissingParamError('password'))
+
     const httpRequest = {
       body: {
         email: 'valid_mail@mail.com'
@@ -45,10 +51,10 @@ describe('Login Controller', () => {
   })
 
   it('Should return 400 if a invalid email is provided', async () => {
-    const { sut, emailValidatorStub } = makeSut()
+    const { sut, validation } = makeSut()
     jest
-      .spyOn(emailValidatorStub, 'isValid')
-      .mockImplementationOnce(() => false)
+      .spyOn(validation, 'validate')
+      .mockImplementationOnce(() => new InvalidParamError('email'))
 
     const httpRequest = {
       body: {
