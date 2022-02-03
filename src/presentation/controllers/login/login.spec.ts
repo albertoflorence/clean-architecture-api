@@ -21,7 +21,7 @@ class ValidationStub implements Validation {
 }
 
 class AuthenticationStub implements Authentication {
-  auth = async (email: string, password: string): Promise<string> =>
+  auth = async (email: string, password: string): Promise<string | null> =>
     await Promise.resolve('any_token')
 }
 
@@ -83,7 +83,7 @@ describe('Login Controller', () => {
 
   it('Should return 500 if Validation throws', async () => {
     const { sut, validation } = makeSut()
-    jest.spyOn(validation, 'validate').mockImplementation(() => {
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
       throw new Error()
     })
     const httpResponse = await sut.handler(makeFakeHttpRequest())
@@ -97,5 +97,15 @@ describe('Login Controller', () => {
       .mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handler(makeFakeHttpRequest())
     expect(httpResponse).toEqual(unauthorized())
+  })
+
+  it('Should return 500 if Authentication throws', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(Promise.reject(new Error()))
+
+    const httpResponse = await sut.handler(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
