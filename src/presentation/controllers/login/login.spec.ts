@@ -39,6 +39,14 @@ const makeFakeHttpRequest = (): HttpRequest => ({
 })
 
 describe('Login Controller', () => {
+  it('Should call validate with correct values', async () => {
+    const { sut, validationStub } = makeSut()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+    await sut.handler(makeFakeHttpRequest())
+
+    expect(validateSpy).toHaveBeenLastCalledWith(makeFakeHttpRequest().body)
+  })
+
   it('Should return 500 if Validation throws', async () => {
     const { sut, validationStub } = makeSut()
     jest.spyOn(validationStub, 'validate').mockImplementationOnce(() => {
@@ -67,7 +75,7 @@ describe('Login Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
-  it('Should return 400 if validation return a error', async () => {
+  it('Should return 400 if Validation return a error', async () => {
     const { sut, validationStub } = makeSut()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
     const httpResponse = await sut.handler(makeFakeHttpRequest())
