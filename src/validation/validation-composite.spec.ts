@@ -45,10 +45,10 @@ describe('Validation Composite', () => {
     expect(validation).toEqual(new InvalidParamError('field'))
   })
 
-  it('Should return false if no validations fails', () => {
+  it('Should return null if no validations fails', () => {
     const { sut } = makeSut()
 
     const validation = sut.validate({})
-    expect(validation).toBeFalsy()
+    expect(validation).toBe(null)
   })
 })

@@ -8,7 +8,6 @@ describe('Compare Field Validation', () => {
       field: 'any',
       fieldToCompare: 'not_any'
     }
-
     const validation = sut.validate(input)
     expect(validation).toEqual(new InvalidParamError('fieldToCompare'))
   })
@@ -19,7 +18,6 @@ describe('Compare Field Validation', () => {
       field: 'any',
       fieldToCompare: 'any'
     }
-
     const validation = sut.validate(input)
     expect(validation).toEqual(null)
   })

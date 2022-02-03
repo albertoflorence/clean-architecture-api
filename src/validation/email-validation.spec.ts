@@ -36,7 +36,7 @@ describe('Email Validation', () => {
     expect(validation).toEqual(new InvalidParamError('email'))
   })
 
-  it('Should return null if an valid email is provided', () => {
+  it('Should return null if validation succeeds', () => {
     const { sut } = makeSut()
     const validation = sut.validate(makeInput())
     expect(validation).toBe(null)
