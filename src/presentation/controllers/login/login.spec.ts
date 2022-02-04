@@ -6,7 +6,8 @@ import {
   HttpRequest,
   Validation,
   LoginController,
-  ok
+  ok,
+  AuthenticationModel
 } from './login-protocols'
 
 interface SutTypes {
@@ -20,7 +21,7 @@ class ValidationStub implements Validation {
 }
 
 class AuthenticationStub implements Authentication {
-  auth = async (email: string, password: string): Promise<string | null> =>
+  auth = async (credentials: AuthenticationModel): Promise<string | null> =>
     await Promise.resolve('any_token')
 }
 
