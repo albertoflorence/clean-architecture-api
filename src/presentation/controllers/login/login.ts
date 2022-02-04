@@ -28,7 +28,7 @@ export class LoginController implements Controller {
 
       return ok({ accessToken })
     } catch (error) {
-      return serverError(error instanceof Error ? error : undefined)
+      return serverError(error)
     }
   }
 }

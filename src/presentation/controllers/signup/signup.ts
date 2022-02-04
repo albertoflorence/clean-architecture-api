@@ -27,7 +27,7 @@ export class SignUpController implements Controller {
         .add({ name, email, password })
         .then(account => ok(account))
     } catch (error) {
-      return serverError(error instanceof Error ? error : undefined)
+      return serverError(error)
     }
   }
 }
