@@ -117,4 +117,10 @@ describe('Db Authentication', () => {
 
     expect(generateSpy).toHaveBeenCalledWith(makeFakeAccount().id)
   })
+
+  it('Should return the token that TokenGenerator returns', async () => {
+    const { sut } = makeSut()
+    const accessToken = await sut.auth(makeFakeCredentials())
+    expect(accessToken).toBe('any_token')
+  })
 })
