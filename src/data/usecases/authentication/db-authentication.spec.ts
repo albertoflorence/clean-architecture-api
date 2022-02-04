@@ -58,7 +58,7 @@ describe('Db Authentication', () => {
     jest
       .spyOn(loadAccountByEmailRepositoryStub, 'load')
       .mockReturnValueOnce(Promise.resolve(null))
-    const accessToken = await sut.auth(makeFakeAccount())
+    const accessToken = await sut.auth(makeFakeCredentials())
     expect(accessToken).toBe(null)
   })
 })
