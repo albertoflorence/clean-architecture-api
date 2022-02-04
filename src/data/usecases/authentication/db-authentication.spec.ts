@@ -87,4 +87,15 @@ describe('Db Authentication', () => {
       makeFakeAccount().password
     )
   })
+
+  it('Should return null if HashComparer false', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    jest
+      .spyOn(hashComparerStub, 'compare')
+      .mockReturnValueOnce(Promise.resolve(false))
+
+    const accessToken = await sut.auth(makeFakeCredentials())
+
+    expect(accessToken).toBe(null)
+  })
 })

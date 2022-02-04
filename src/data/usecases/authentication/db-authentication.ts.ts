@@ -16,10 +16,14 @@ export class DbAuthentication implements Authentication {
       credentials.email
     )
 
-    if (!account) return null
+    if (account) {
+      const isValid = await this.hashComparer.compare(
+        credentials.password,
+        account.password
+      )
+      if (isValid) return 'token'
+    }
 
-    await this.hashComparer.compare(credentials.password, account.password)
-
-    return 'token'
+    return null
   }
 }
