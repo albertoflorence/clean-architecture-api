@@ -2,7 +2,7 @@ import { AuthenticationModel } from '../../../domain/usecases/authentication'
 import { HashComparer } from '../../protocols/cryptography/hash-comparer'
 import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
 import { AccountModel } from '../add-account/protocols'
-import { DbAuthentication } from './db-authentication.ts'
+import { DbAuthentication } from './db-authentication'
 
 class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
   async load(email: string): Promise<AccountModel> {
