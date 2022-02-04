@@ -1,4 +1,5 @@
 import { AuthenticationModel } from '../../../domain/usecases/authentication'
+import { HashComparer } from '../../protocols/cryptography/hash-comparer'
 import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
 import { AccountModel } from '../add-account/protocols'
 import { DbAuthentication } from './db-authentication.ts'
@@ -9,22 +10,35 @@ class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
   }
 }
 
+class HashComparerStub implements HashComparer {
+  compare = async (value: string, hash: string): Promise<boolean> => true
+}
+
 interface SutTypes {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
+  hashComparerStub: HashComparer
 }
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub =
     new LoadAccountByEmailRepositoryStub()
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub)
-  return { sut, loadAccountByEmailRepositoryStub }
+  const hashComparerStub = new HashComparerStub()
+  const sut = new DbAuthentication(
+    loadAccountByEmailRepositoryStub,
+    hashComparerStub
+  )
+  return {
+    sut,
+    loadAccountByEmailRepositoryStub,
+    hashComparerStub: hashComparerStub
+  }
 }
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   email: 'any@mail.com',
   name: 'any_name',
-  password: 'any_password'
+  password: 'hashed_password'
 })
 
 const makeFakeCredentials = (): AuthenticationModel => ({
@@ -60,5 +74,17 @@ describe('Db Authentication', () => {
       .mockReturnValueOnce(Promise.resolve(null))
     const accessToken = await sut.auth(makeFakeCredentials())
     expect(accessToken).toBe(null)
+  })
+
+  it('Should call HashComparer with correct values', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    const compareSpy = jest.spyOn(hashComparerStub, 'compare')
+
+    await sut.auth(makeFakeCredentials())
+
+    expect(compareSpy).toHaveBeenCalledWith(
+      makeFakeCredentials().password,
+      makeFakeAccount().password
+    )
   })
 })
