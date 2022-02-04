@@ -1,5 +1,5 @@
 export * from '../../../domain/models/account'
 export * from '../../../domain/usecases/add-account'
-export * from '../../protocols/encrypter'
+export * from '../../protocols/cryptography/encrypter'
 export * from './db-add-account'
-export * from '../../../data/protocols/add-account-repository'
+export * from '../../protocols/db/add-account-repository'
