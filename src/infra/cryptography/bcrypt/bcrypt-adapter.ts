@@ -1,9 +1,9 @@
-import { Encrypter } from '../../../data/protocols/cryptography/encrypter'
+import { Hasher } from '../../../data/protocols/cryptography/hasher'
 import bcrypt from 'bcrypt'
 
-export class BcryptAdapter implements Encrypter {
+export class BcryptAdapter implements Hasher {
   constructor(private readonly salt: number) {}
-  encrypt = async (string: string): Promise<string> => {
-    return await bcrypt.hash(string, this.salt)
+  hash = async (plaintext: string): Promise<string> => {
+    return await bcrypt.hash(plaintext, this.salt)
   }
 }
