@@ -54,5 +54,11 @@ describe('Account MongoDb Repository', () => {
       expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
     })
+
+    it('Should return null if no account is found', async () => {
+      const sut = makeSut()
+      const account = await sut.loadByEmail('any_mail@mail.com')
+      expect(account).toBe(null)
+    })
   })
 })
