@@ -6,3 +6,4 @@ coverage
 globalConfig.json
 build
 src/main/config/env.ts
+launch.json
