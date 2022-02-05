@@ -23,7 +23,7 @@ class EncrypterStub implements Encrypter {
 }
 
 class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
-  update = async (id: string, token: string): Promise<void> => {}
+  updateAccessToken = async (id: string, token: string): Promise<void> => {}
 }
 
 interface SutTypes {
@@ -139,7 +139,10 @@ describe('Db Authentication', () => {
 
   it('Should call Encrypter with correct values', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
-    const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'update')
+    const updateSpy = jest.spyOn(
+      updateAccessTokenRepositoryStub,
+      'updateAccessToken'
+    )
 
     await sut.auth(makeFakeCredentials())
 
