@@ -11,8 +11,8 @@ const makeSut = (): SutTypes => {
 }
 
 jest.mock('bcrypt', () => ({
-  hash: async () => 'hashed_any_value',
-  compare: async () => true
+  hash: async (): Promise<string> => 'hashed_any_value',
+  compare: async (): Promise<boolean> => true
 }))
 
 describe('BcryptAdapter Adapter', () => {
@@ -34,5 +34,20 @@ describe('BcryptAdapter Adapter', () => {
     const compareSpy = jest.spyOn(bcrypt, 'compare')
     await sut.compare('plaintext', 'hashed_any_value')
     expect(compareSpy).toHaveBeenCalledWith('plaintext', 'hashed_any_value')
+  })
+
+  it('Should return false if bcrypt compare returns false', async () => {
+    const { sut } = makeSut()
+    jest.spyOn(bcrypt, 'compare').mockImplementationOnce(() => false)
+
+    const isValid = await sut.compare('plaintext', 'hashed_any_value')
+    expect(isValid).toBe(false)
+  })
+
+  it('Should return true if bcrypt compare returns true', async () => {
+    const { sut } = makeSut()
+
+    const isValid = await sut.compare('plaintext', 'hashed_any_value')
+    expect(isValid).toBe(true)
   })
 })
