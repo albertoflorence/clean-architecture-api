@@ -22,26 +22,10 @@ export class AccountMongoRepository
 
   async loadByEmail(email: string): Promise<AccountModel | null> {
     const result = await MongoDbHelper.getCollection('accounts').findOne(
-      {
-        email
-      },
-      {
-        projection: {
-          _id: 1,
-          name: 1,
-          password: 1,
-          email: 1
-        }
-      }
+      { email },
+      { projection: { _id: 1, name: 1, password: 1, email: 1 } }
     )
-    if (result) {
-      return {
-        id: result._id.toString(),
-        name: result.name,
-        email: result.email,
-        password: result.password
-      }
-    }
-    return null
+
+    return result && MongoDbHelper.map(result)
   }
 }

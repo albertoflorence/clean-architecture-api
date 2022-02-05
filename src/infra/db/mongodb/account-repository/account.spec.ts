@@ -1,9 +1,16 @@
 import { Collection } from 'mongodb'
 import { AccountModel } from '../../../../domain/models/account'
+import { AddAccountModel } from '../../../../domain/usecases/add-account'
 import { MongoDbHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account'
 
 let accountCollection: Collection
+
+const makeFakeAddAccount = (): AddAccountModel => ({
+  name: 'any_name',
+  email: 'any_email@mail.com',
+  password: 'any_password'
+})
 
 describe('Account MongoDb Repository', () => {
   beforeAll(async () => {
@@ -15,7 +22,7 @@ describe('Account MongoDb Repository', () => {
   })
 
   beforeEach(async () => {
-    accountCollection = await MongoDbHelper.getCollection('accounts')
+    accountCollection = MongoDbHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
 
@@ -25,11 +32,7 @@ describe('Account MongoDb Repository', () => {
   describe('add', () => {
     it('Should return an account on success', async () => {
       const sut = makeSut()
-      const account = await sut.add({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      })
+      const account = await sut.add(makeFakeAddAccount())
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')
@@ -40,17 +43,12 @@ describe('Account MongoDb Repository', () => {
   describe('loadByEmail', () => {
     it('Should return an account on success', async () => {
       const sut = makeSut()
-      await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      })
+      await accountCollection.insertOne(makeFakeAddAccount())
 
       const account = (await sut.loadByEmail(
         'any_email@mail.com'
       )) as AccountModel
 
-      expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
       expect(account.email).toBe('any_email@mail.com')

@@ -14,5 +14,13 @@ export const MongoDbHelper = {
 
   getCollection(name: string): Collection {
     return client.db().collection(name)
+  },
+
+  map(data: any): any {
+    const { _id, ...rest } = data
+    return {
+      id: _id.toHexString(),
+      ...rest
+    }
   }
 }
