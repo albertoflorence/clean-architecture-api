@@ -35,10 +35,10 @@ export class AccountMongoRepository
     return result && MongoDbHelper.map(result)
   }
 
-  async updateAccessToken(id: string, token: string): Promise<void> {
+  async updateAccessToken(id: string, accessToken: string): Promise<void> {
     await this.collection.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { accessToken: token } }
+      { $set: { accessToken } }
     )
   }
 }
