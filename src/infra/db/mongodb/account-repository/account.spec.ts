@@ -61,4 +61,17 @@ describe('Account MongoDb Repository', () => {
       expect(account).toBe(null)
     })
   })
+
+  describe('updateAccessToken', () => {
+    it('Should update the account accessToken', async () => {
+      const sut = makeSut()
+      const { insertedId } = await accountCollection.insertOne(
+        makeFakeAddAccount()
+      )
+      await sut.updateAccessToken(insertedId.toHexString(), 'any_token')
+      const account = await accountCollection.findOne({ _id: insertedId })
+
+      expect(account?.accessToken).toBe('any_token')
+    })
+  })
 })
