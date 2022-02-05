@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 export class BcryptAdapter implements Hasher, HashComparer {
   constructor(private readonly salt: number) {}
 
-  hash = async (plaintext: string): Promise<string> => {
+  async hash(plaintext: string): Promise<string> {
     return await bcrypt.hash(plaintext, this.salt)
   }
 
