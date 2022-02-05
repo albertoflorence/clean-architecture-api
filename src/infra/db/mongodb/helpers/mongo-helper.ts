@@ -1,4 +1,4 @@
-import { Collection, MongoClient } from 'mongodb'
+import { Collection, MongoClient, ObjectId } from 'mongodb'
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 let client = {} as MongoClient
@@ -25,4 +25,4 @@ export const MongoDbHelper = {
   }
 }
 
-export { Collection }
+export { Collection, ObjectId }
