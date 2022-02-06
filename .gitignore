@@ -5,5 +5,5 @@ dist
 coverage
 globalConfig.json
 build
-src/main/config/env.ts
+src/main/config/dev-env.ts
 launch.json
