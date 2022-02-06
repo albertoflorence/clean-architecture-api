@@ -1,6 +1,6 @@
 {
   "name": "first",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "jest --findRelatedTests",
     "test:integration": "jest -c jest-integration.config.js",
-    "test:ci": "jest --coverage --runInBand"
+    "test:ci": "jest --coverage --runInBand",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +30,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.0.0",
     "git-commit-msg-linter": "^4.0.7",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "jest": "^27.4.7",
     "lint-staged": "^12.2.2",
     "supertest": "^6.2.2",
