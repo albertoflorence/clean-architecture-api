@@ -1,10 +1,10 @@
-import { Validation } from '../../../presentation/protocols'
-import { EmailValidator } from '../../../utils/emailValidator'
 import {
   RequireFieldValidation,
   CompareFieldsValidation,
   EmailValidation,
-  ValidationComposite
+  ValidationComposite,
+  EmailValidator,
+  Validation
 } from '../../../validation'
 import { makeSignUpValidation } from './signup-validation-factory'
 
