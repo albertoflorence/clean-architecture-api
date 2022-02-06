@@ -10,6 +10,7 @@ import {
 import { LogControllerDecorator } from '../../decorators/log-controller-decorator'
 import { makeLoginValidation } from './login-validation-factory'
 import env from '../../config/env'
+import { adaptRoute } from '../../adapters/express-route-adapter'
 
 export const makeLoginController = (): Controller => {
   const authentication = new DbAuthentication(
@@ -29,3 +30,5 @@ export const makeLoginController = (): Controller => {
     new LogErrorMongoRepository()
   )
 }
+
+export const routeLoginController = adaptRoute(makeLoginController())
