@@ -1,6 +1,20 @@
 import request from 'supertest'
-import { MongoDbHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
+import {
+  Collection,
+  MongoDbHelper
+} from '../../infra/db/mongodb/helpers/mongo-helper'
 import app from '../config/app'
+import { hash } from 'bcrypt'
+import env from '../config/env'
+
+const makeFakeAccount = (): any => ({
+  name: 'valid_name',
+  email: 'valid_email@mail.com',
+  password: 'valid_password',
+  passwordConfirm: 'valid_password'
+})
+
+let accountCollection: Collection
 
 describe('Authentication Routes', () => {
   beforeAll(async () => {
@@ -12,7 +26,8 @@ describe('Authentication Routes', () => {
   })
 
   beforeEach(async () => {
-    await MongoDbHelper.getCollection('accounts').deleteMany({})
+    accountCollection = MongoDbHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('POST /signup', () => {
@@ -24,6 +39,22 @@ describe('Authentication Routes', () => {
           email: 'valid_email@mail.com',
           password: 'valid_password',
           passwordConfirm: 'valid_password'
+        })
+        .expect(200)
+    })
+  })
+
+  describe('POST /login', () => {
+    it('Should return 200 on login', async () => {
+      await accountCollection.insertOne({
+        ...makeFakeAccount(),
+        password: await hash('valid_password', env.bcryptSalt)
+      })
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'valid_email@mail.com',
+          password: 'valid_password'
         })
         .expect(200)
     })
