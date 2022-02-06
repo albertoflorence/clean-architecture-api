@@ -8,7 +8,7 @@ import {
   HttpResponse,
   Validation,
   ok
-} from './login-protocols'
+} from './login-controller-protocols'
 export class LoginController implements Controller {
   constructor(
     private readonly validation: Validation,

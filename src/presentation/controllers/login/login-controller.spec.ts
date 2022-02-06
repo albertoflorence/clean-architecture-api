@@ -8,7 +8,7 @@ import {
   LoginController,
   ok,
   AuthenticationModel
-} from './login-protocols'
+} from './login-controller-protocols'
 
 interface SutTypes {
   sut: LoginController

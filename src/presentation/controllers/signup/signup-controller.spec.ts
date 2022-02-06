@@ -1,4 +1,4 @@
-import { SignUpController } from './signup'
+import { SignUpController } from './signup-controller'
 import {
   AddAccount,
   AddAccountModel,
@@ -8,7 +8,7 @@ import {
   serverError,
   badRequest,
   Validation
-} from './signup-protocols'
+} from './signup-controller-protocols'
 
 interface SutTypes {
   sut: SignUpController

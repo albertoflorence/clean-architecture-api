@@ -1,5 +1,6 @@
 import { Collection } from 'mongodb'
 import { LogErrorMongoRepository } from '.'
+
 import { MongoDbHelper } from '../helpers/mongo-helper'
 
 describe('Account MongoDb Repository', () => {
