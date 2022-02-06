@@ -11,8 +11,7 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "jest --findRelatedTests",
     "test:integration": "jest -c jest-integration.config.js",
-    "test:ci": "jest --coverage --runInBand",
-    "prepare": "husky install"
+    "test:ci": "jest --coverage --runInBand"
   },
   "keywords": [],
   "author": "",
