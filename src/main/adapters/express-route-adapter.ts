@@ -12,13 +12,17 @@ export const adaptRoute =
     }
     void controller
       .handler(httpRequest)
-      .then(({ statusCode, body }: HttpResponse) => {
-        if (statusCode === 200) {
-          res.status(statusCode).json(body)
-        } else {
-          res.status(statusCode).json({
-            error: body.message
-          })
+      .then(({ statusCode, body, redirect }: HttpResponse) => {
+        if (redirect) {
+          return res.redirect(statusCode, redirect)
         }
+
+        if (statusCode === 200) {
+          return res.status(statusCode).json(body)
+        }
+
+        return res.status(statusCode).json({
+          error: body.message
+        })
       })
   }

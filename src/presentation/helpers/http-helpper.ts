@@ -21,3 +21,12 @@ export const ok = (data: any): HttpResponse => ({
   statusCode: 200,
   body: data
 })
+
+export const redirect = (
+  url: string,
+  statusCode: number = 302
+): HttpResponse => ({
+  statusCode,
+  redirect: url,
+  body: {}
+})

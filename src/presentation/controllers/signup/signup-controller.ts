@@ -5,8 +5,8 @@ import {
   badRequest,
   serverError,
   AddAccount,
-  ok,
-  Validation
+  Validation,
+  redirect
 } from './signup-controller-protocols'
 
 export class SignUpController implements Controller {
@@ -23,9 +23,9 @@ export class SignUpController implements Controller {
       const error = this.validation.validate(body)
       if (error) return badRequest(error)
 
-      return await this.addAccount
-        .add({ name, email, password })
-        .then(account => ok(account))
+      await this.addAccount.add({ name, email, password })
+
+      return redirect('login', 307)
     } catch (error) {
       return serverError(error)
     }
