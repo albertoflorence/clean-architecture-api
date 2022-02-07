@@ -4,7 +4,7 @@ import {
   AddAccountModel,
   AccountModel,
   HttpRequest,
-  ok,
+  redirect,
   serverError,
   badRequest,
   Validation
@@ -75,12 +75,6 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(serverError())
   })
 
-  it('Should return http 200', async () => {
-    const { sut } = makeSut()
-    const httpResponse = await sut.handler(makeFakeRequest())
-    expect(httpResponse).toEqual(ok(makeFakeAccount()))
-  })
-
   it('Should call validation with correct values', async () => {
     const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
@@ -94,5 +88,11 @@ describe('SignUp Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(error)
     const httpResponse = await sut.handler(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(error))
+  })
+
+  it('Should return 307 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handler(makeFakeRequest())
+    expect(httpResponse).toEqual(redirect('login', 307))
   })
 })

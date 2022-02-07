@@ -31,7 +31,7 @@ describe('Authentication Routes', () => {
   })
 
   describe('POST /signup', () => {
-    it('Should return 200 on signup', async () => {
+    it('Should return 307 on signup', async () => {
       await request(app)
         .post('/api/signup')
         .send({
@@ -40,7 +40,7 @@ describe('Authentication Routes', () => {
           password: 'valid_password',
           passwordConfirm: 'valid_password'
         })
-        .expect(200)
+        .expect(307)
     })
   })
 
