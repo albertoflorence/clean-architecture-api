@@ -15,15 +15,9 @@ export class AccountMongoRepository
     return MongoDbHelper.getCollection('accounts')
   }
 
-  async add(account: AddAccountModel): Promise<AccountModel> {
-    const result = await this.collection.insertOne(account)
-
-    return {
-      id: result.insertedId.toString(),
-      name: account.name,
-      email: account.email,
-      password: account.password
-    }
+  async add(account: AddAccountModel): Promise<boolean> {
+    await this.collection.insertOne(account)
+    return true
   }
 
   async loadByEmail(email: string): Promise<AccountModel | null> {
