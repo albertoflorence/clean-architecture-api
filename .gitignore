@@ -5,4 +5,4 @@ coverage
 globalConfig.json
 build
 .env
-data
+/data
