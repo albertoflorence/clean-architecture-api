@@ -6,7 +6,9 @@ import {
   serverError,
   AddAccount,
   Validation,
-  redirect
+  redirect,
+  forbidden,
+  UniqueParamError
 } from './signup-controller-protocols'
 
 export class SignUpController implements Controller {
@@ -23,7 +25,8 @@ export class SignUpController implements Controller {
       const error = this.validation.validate(body)
       if (error) return badRequest(error)
 
-      await this.addAccount.add({ name, email, password })
+      const account = await this.addAccount.add({ name, email, password })
+      if (!account) return forbidden(new UniqueParamError('email'))
 
       return redirect('login', 307)
     } catch (error) {
