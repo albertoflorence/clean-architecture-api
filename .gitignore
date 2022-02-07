@@ -7,3 +7,4 @@ globalConfig.json
 build
 src/main/config/dev-env.ts
 launch.json
+.env

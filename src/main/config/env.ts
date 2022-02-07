@@ -1,8 +1,8 @@
-import devEnv from './dev-env'
+import 'dotenv/config'
 
 export default {
-  mongoUrl: process.env.MONGO_URL ?? devEnv.mongoUrl,
-  port: process.env.port ?? devEnv.port,
-  jwtSecret: process.env.JWT_SECRET ?? devEnv.jwtSecret,
-  bcryptSalt: 12
+  mongoUrl: process.env.MONGO_URL as string,
+  port: process.env.PORT as string,
+  jwtSecret: process.env.JWT_SECRET as string,
+  bcryptSalt: parseInt(process.env.BCRYPT_SALT as string)
 }
