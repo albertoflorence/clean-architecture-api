@@ -1,10 +1,8 @@
 node_modules
 commitlinterrc.json
 dist
-.a
 coverage
 globalConfig.json
 build
-src/main/config/dev-env.ts
-launch.json
 .env
+data
