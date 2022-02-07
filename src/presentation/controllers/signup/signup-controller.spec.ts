@@ -2,12 +2,13 @@ import { SignUpController } from './signup-controller'
 import {
   AddAccount,
   AddAccountModel,
-  AccountModel,
   HttpRequest,
   redirect,
   serverError,
   badRequest,
-  Validation
+  Validation,
+  forbidden,
+  UniqueParamError
 } from './signup-controller-protocols'
 
 interface SutTypes {
@@ -18,8 +19,8 @@ interface SutTypes {
 
 const makeAddAccountStub = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add(account: AddAccountModel): Promise<AccountModel> {
-      return makeFakeAccount()
+    async add(account: AddAccountModel): Promise<boolean> {
+      return true
     }
   }
   return new AddAccountStub()
@@ -37,13 +38,6 @@ const makeSut = (): SutTypes => {
   const sut = new SignUpController(addAccountStub, validationStub)
   return { sut, addAccountStub, validationStub }
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'any_name',
-  email: 'any_mail@mail.com',
-  password: 'any_password'
-})
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -88,6 +82,15 @@ describe('SignUp Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(error)
     const httpResponse = await sut.handler(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(error))
+  })
+
+  it('Should return 403 if AddAccount return false', async () => {
+    const { sut, addAccountStub } = makeSut()
+    jest
+      .spyOn(addAccountStub, 'add')
+      .mockReturnValueOnce(Promise.resolve(false))
+    const httpResponse = await sut.handler(makeFakeRequest())
+    expect(httpResponse).toEqual(forbidden(new UniqueParamError('email')))
   })
 
   it('Should return 307 on success', async () => {
