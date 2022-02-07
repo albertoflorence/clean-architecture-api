@@ -2,7 +2,6 @@ import {
   DbAddAccount,
   Hasher,
   AddAccountRepository,
-  AccountModel,
   AddAccountModel
 } from './protocols'
 
@@ -17,16 +16,8 @@ class HasherStub implements Hasher {
 }
 
 class AddAccountRepositoryStub implements AddAccountRepository {
-  add = async (account: AddAccountModel): Promise<AccountModel> =>
-    makeFakeAccount()
+  add = async (account: AddAccountModel): Promise<boolean> => true
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid@mail.com',
-  password: 'hashed_valid_password'
-})
 
 const makeFakeAddAccount = (): AddAccountModel => ({
   name: 'valid_name',
@@ -78,9 +69,9 @@ describe('DB addAccount', () => {
     await expect(account).rejects.toThrowError(new Error())
   })
 
-  it('Should return a account on success', async () => {
+  it('Should return true on success', async () => {
     const { sut } = makeSut()
     const account = await sut.add(makeFakeAddAccount())
-    expect(account).toEqual(makeFakeAccount())
+    expect(account).toEqual(true)
   })
 })
