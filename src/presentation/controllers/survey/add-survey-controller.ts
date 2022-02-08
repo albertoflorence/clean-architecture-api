@@ -1,5 +1,5 @@
 import { AddSurvey } from '../../../domain/usecases'
-import { badRequest, ok } from '../../helpers'
+import { badRequest, ok, serverError } from '../../helpers'
 import {
   Controller,
   HttpRequest,
@@ -14,11 +14,15 @@ export class AddSurveyController implements Controller {
   ) {}
 
   async handler(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { body } = httpRequest
-    const error = this.validation.validate(body)
-    if (error) return badRequest(error)
+    try {
+      const { body } = httpRequest
+      const error = this.validation.validate(body)
+      if (error) return badRequest(error)
 
-    await this.addSurvey.add(body)
-    return ok('add survey')
+      await this.addSurvey.add(body)
+      return ok('add survey')
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
