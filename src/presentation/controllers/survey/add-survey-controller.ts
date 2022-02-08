@@ -1,5 +1,5 @@
 import { AddSurvey } from '../../../domain/usecases'
-import { badRequest, ok, serverError } from '../../helpers'
+import { badRequest, noContent, serverError } from '../../helpers'
 import {
   Controller,
   HttpRequest,
@@ -20,7 +20,7 @@ export class AddSurveyController implements Controller {
       if (error) return badRequest(error)
 
       await this.addSurvey.add(body)
-      return ok('add survey')
+      return noContent()
     } catch (error) {
       return serverError(error)
     }
