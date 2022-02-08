@@ -5,6 +5,17 @@ class AddSurveyRepositoryStub implements AddSurvey {
   async add(data: AddSurveyModel): Promise<void> {}
 }
 
+interface SutTypes {
+  sut: DbAddSurvey
+  addSurveyRepositoryStub: AddSurvey
+}
+
+const makeSut = (): SutTypes => {
+  const addSurveyRepositoryStub = new AddSurveyRepositoryStub()
+  const sut = new DbAddSurvey(addSurveyRepositoryStub)
+  return { sut, addSurveyRepositoryStub }
+}
+
 const makeFakeAddSurveyData = (): AddSurveyModel => ({
   question: 'any_question',
   answers: [
@@ -17,8 +28,7 @@ const makeFakeAddSurveyData = (): AddSurveyModel => ({
 
 describe('Db AddSurvey', () => {
   it('Should call AddSurveyRepository with correct value', async () => {
-    const addSurveyRepositoryStub = new AddSurveyRepositoryStub()
-    const sut = new DbAddSurvey(addSurveyRepositoryStub)
+    const { sut, addSurveyRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addSurveyRepositoryStub, 'add')
 
     await sut.add(makeFakeAddSurveyData())
