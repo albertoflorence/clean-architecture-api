@@ -1,5 +1,5 @@
-import { InvalidParamError } from '../presentation/errors'
-import { Validation, ValidationAsync } from '../presentation/protocols'
+import { InvalidParamError } from '../../presentation/errors'
+import { Validation, ValidationAsync } from '../../presentation/protocols'
 import { ValidationCompositeAsync } from './validation-composite-async'
 
 interface SutTypes {

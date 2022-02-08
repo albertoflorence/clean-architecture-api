@@ -1,12 +1,11 @@
 import { EmailValidatorAdapter } from '../../../../infra/validators'
 import { UniqueFieldMongoAdapter } from '../../../../infra/validators/unique-field-mongo-adapter'
+import { ValidationAsync, Validation } from '../../../../presentation/protocols'
 import {
   CompareFieldsValidation,
   EmailValidation,
   RequireFieldValidation,
-  Validation,
   UniqueFieldValidation,
-  ValidationAsync,
   ValidationCompositeAsync
 } from '../../../../validation'
 

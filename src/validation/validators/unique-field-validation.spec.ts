@@ -1,6 +1,6 @@
-import { UniqueValidator } from '.'
-import { UniqueParamError } from '../presentation/errors'
+import { UniqueParamError } from '../../presentation/errors'
 import { UniqueFieldValidation } from './unique-field-validation'
+import { UniqueValidator } from '../'
 
 class UniqueValidatorStub implements UniqueValidator {
   isUnique = async (filter: any): Promise<boolean> => true
