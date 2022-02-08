@@ -1,5 +1,7 @@
 export * from './compare-fields-validation'
 export * from './email-validation'
 export * from './require-field-validation'
+export * from './unique-field-validation'
 export * from './validation-composite'
+export * from './validation-composite-async'
 export * from '../presentation/protocols/validation'
