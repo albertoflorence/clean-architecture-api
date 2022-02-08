@@ -13,7 +13,7 @@
     "debug:docker": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
     "up": "npm run build && docker-compose up",
     "down": "docker-compose down",
-    "test": "jest --noStackTrace -c jest-unit.config.js",
+    "test": "jest --noStackTrace -c jest-unit.config.js --silent",
     "test:watch": "npm test -- --watch",
     "test:staged": "jest --findRelatedTests",
     "test:integration": "jest -c jest-integration.config.js",
