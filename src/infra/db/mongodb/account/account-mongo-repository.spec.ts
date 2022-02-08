@@ -30,7 +30,7 @@ describe('Account MongoDb Repository', () => {
     return new AccountMongoRepository()
   }
   describe('add', () => {
-    it('Should return an account on success', async () => {
+    it('Should return true on success', async () => {
       const sut = makeSut()
       const account = await sut.add(makeFakeAddAccount())
       expect(account).toBe(true)
