@@ -6,15 +6,13 @@ import {
   redirect,
   serverError,
   badRequest,
-  Validation,
-  forbidden,
-  UniqueParamError
+  ValidationAsync
 } from './signup-controller-protocols'
 
 interface SutTypes {
   sut: SignUpController
   addAccountStub: AddAccount
-  validationStub: Validation
+  validationStub: ValidationAsync
 }
 
 const makeAddAccountStub = (): AddAccount => {
@@ -26,8 +24,8 @@ const makeAddAccountStub = (): AddAccount => {
   return new AddAccountStub()
 }
 
-class ValidationStub implements Validation {
-  validate = (input: any): Error | null => {
+class ValidationStub implements ValidationAsync {
+  validate = async (input: any): Promise<Error | null> => {
     return null
   }
 }
@@ -79,18 +77,11 @@ describe('SignUp Controller', () => {
   it('Should return 400 if validation return an error', async () => {
     const { sut, validationStub } = makeSut()
     const error = new Error()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(error)
+    jest
+      .spyOn(validationStub, 'validate')
+      .mockReturnValueOnce(Promise.resolve(error))
     const httpResponse = await sut.handler(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(error))
-  })
-
-  it('Should return 403 if AddAccount return false', async () => {
-    const { sut, addAccountStub } = makeSut()
-    jest
-      .spyOn(addAccountStub, 'add')
-      .mockReturnValueOnce(Promise.resolve(false))
-    const httpResponse = await sut.handler(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new UniqueParamError('email')))
   })
 
   it('Should return 307 on success', async () => {
