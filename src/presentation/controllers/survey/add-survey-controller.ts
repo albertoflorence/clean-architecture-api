@@ -1,4 +1,4 @@
-import { ok } from '../../helpers'
+import { badRequest, ok } from '../../helpers'
 import {
   Controller,
   HttpRequest,
@@ -10,7 +10,8 @@ export class AddSurveyController implements Controller {
   constructor(private readonly validation: Validation) {}
   async handler(httpRequest: HttpRequest): Promise<HttpResponse> {
     const { body } = httpRequest
-    this.validation.validate(body)
+    const error = this.validation.validate(body)
+    if (error) return badRequest(error)
     return ok('add survey')
   }
 }
