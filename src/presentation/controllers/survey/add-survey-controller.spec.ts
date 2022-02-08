@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '../../helpers'
+import { badRequest, noContent, serverError } from '../../helpers'
 import { HttpRequest, Validation } from '../../protocols'
 import { AddSurveyController } from './add-survey-controller'
 import { AddSurvey, AddSurveyModel } from '../../../domain/usecases'
@@ -65,5 +65,11 @@ describe('Add Survey Controller', () => {
       .mockReturnValueOnce(Promise.reject(new Error()))
     const httpResponse = await sut.handler(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  it('Should return 204 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handler(makeFakeRequest())
+    expect(httpResponse).toEqual(noContent())
   })
 })
