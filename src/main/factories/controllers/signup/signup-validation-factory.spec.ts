@@ -1,15 +1,18 @@
+import { UniqueFieldMongoAdapter } from '../../../../infra/validators/unique-field-mongo-adapter'
 import {
   EmailValidator,
   Validation,
   RequireFieldValidation,
   CompareFieldsValidation,
   EmailValidation,
-  ValidationComposite
+  ValidationCompositeAsync,
+  ValidationAsync
 } from '../../../../validation'
+import { UniqueFieldValidation } from '../../../../validation/unique-field-validation'
 
 import { makeSignUpValidation } from './signup-validation-factory'
 
-jest.mock('../../../../validation/validation-composite')
+jest.mock('../../../../validation/validation-composite-async')
 
 const makeEmailValidatorStub = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -23,7 +26,7 @@ const makeEmailValidatorStub = (): EmailValidator => {
 describe('SignUpValidation Factory', () => {
   it('Should call ValidationComposite with all validations', () => {
     makeSignUpValidation()
-    const validations: Validation[] = [
+    const validations: Array<Validation | ValidationAsync> = [
       new RequireFieldValidation(
         'name',
         'email',
@@ -31,9 +34,13 @@ describe('SignUpValidation Factory', () => {
         'passwordConfirm'
       ),
       new CompareFieldsValidation('password', 'passwordConfirm'),
-      new EmailValidation('email', makeEmailValidatorStub())
+      new EmailValidation('email', makeEmailValidatorStub()),
+      new UniqueFieldValidation(
+        'email',
+        new UniqueFieldMongoAdapter('accounts')
+      )
     ]
 
-    expect(ValidationComposite).toHaveBeenCalledWith(validations)
+    expect(ValidationCompositeAsync).toHaveBeenCalledWith(validations)
   })
 })
