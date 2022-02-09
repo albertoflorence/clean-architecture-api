@@ -5,7 +5,7 @@ import { JwtAdapter } from '../../../infra/cryptography/jwt-adapter/jwt.adapter'
 import { AccountMongoRepository } from '../../../infra/db/mongodb/account/account-mongo-repository'
 import env from '../../config/env'
 
-export const makeAuthentication = (): Authentication => {
+export const makeDbAuthentication = (): Authentication => {
   return new DbAuthentication(
     new AccountMongoRepository(),
     new BcryptAdapter(env.bcryptSalt),
