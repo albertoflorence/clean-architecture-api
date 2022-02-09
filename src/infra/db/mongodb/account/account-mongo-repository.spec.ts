@@ -105,5 +105,16 @@ describe('Account MongoDb Repository', () => {
       expect(id).toBeTruthy()
       expect(account).toEqual(data)
     })
+
+    it('Should return null if loadByToken fails', async () => {
+      const sut = makeSut()
+      const data = {
+        accessToken: 'any_token',
+        ...makeFakeAddAccount()
+      }
+      await accountCollection.insertOne({ ...data })
+      const account = await sut.loadByToken('wrong_token')
+      expect(account).toBe(null)
+    })
   })
 })
