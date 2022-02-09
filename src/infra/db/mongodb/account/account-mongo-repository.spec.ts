@@ -12,6 +12,8 @@ const makeFakeAddAccount = (): AddAccountModel => ({
   password: 'any_password'
 })
 
+// const insertOneAccountDb = async (): Promise<Document> => await accountCollection.insertOne(makeFakeAddAccount())
+
 describe('Account MongoDb Repository', () => {
   beforeAll(async () => {
     await MongoDbHelper.connect(process.env.MONGO_URL as string)
@@ -69,6 +71,21 @@ describe('Account MongoDb Repository', () => {
       const account = await accountCollection.findOne({ _id: insertedId })
 
       expect(account?.accessToken).toBe('any_token')
+    })
+  })
+
+  describe('loadByToken', () => {
+    it('Should return an account on success', async () => {
+      const sut = makeSut()
+      const data = { accessToken: 'any_token', ...makeFakeAddAccount() }
+      await accountCollection.insertOne({ ...data })
+
+      const { id, ...account } = (await sut.loadByToken(
+        'any_token'
+      )) as AccountModel
+
+      expect(id).toBeTruthy()
+      expect(account).toEqual(data)
     })
   })
 })
