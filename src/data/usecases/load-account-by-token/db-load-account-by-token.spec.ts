@@ -4,7 +4,7 @@ import { LoadAccountByTokenRepository } from '../../protocols/db/account/load-ac
 import { AccountModel } from '../add-account/protocols'
 
 class DecrypterStub implements Decrypter {
-  decrypt = async (token: string): Promise<string> => 'any_id'
+  decrypt = async (token: string): Promise<string | null> => 'any_id'
 }
 
 class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
@@ -57,5 +57,14 @@ describe('Db LoadAccountByToken', () => {
     )
     await sut.loadByToken('any_token', 'any_role')
     expect(loadByTokenSpy).toHaveBeenCalledWith('any_token', 'any_role')
+  })
+
+  it('Should return null if Decrypter returns null', async () => {
+    const { sut, decrypterStub } = makeSut()
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(Promise.resolve(null))
+    const account = await sut.loadByToken('any_token')
+    expect(account).toBe(null)
   })
 })
