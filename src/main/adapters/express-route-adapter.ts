@@ -17,7 +17,7 @@ export const adaptRoute =
           return res.redirect(statusCode, redirect)
         }
 
-        if (statusCode === 200) {
+        if (statusCode > 199 && statusCode < 300) {
           return res.status(statusCode).json(body)
         }
 
