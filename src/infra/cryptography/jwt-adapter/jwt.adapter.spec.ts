@@ -7,7 +7,7 @@ const makeSut = (): JwtAdapter => {
 
 jest.mock('jsonwebtoken', () => ({
   sign: (): string => 'any_token',
-  verify: (): string => 'any_value'
+  verify: (): any => 'any_value'
 }))
 
 describe('Jwt Adapter', () => {
@@ -34,12 +34,19 @@ describe('Jwt Adapter', () => {
       await expect(promise).rejects.toThrow()
     })
   })
+
   describe('verify', () => {
     it('Should call verify with correct token', async () => {
       const sut = makeSut()
       const verifySpy = jest.spyOn(jwt, 'verify')
       await sut.decrypt('any_token')
       expect(verifySpy).toHaveBeenCalledWith('any_token', 'secret')
+    })
+
+    it('Should return a value on verify success', async () => {
+      const sut = makeSut()
+      const value = await sut.decrypt('any_token')
+      expect(value).toBe('any_value')
     })
   })
 })
