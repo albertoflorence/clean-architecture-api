@@ -32,6 +32,10 @@ const makeUserAccountWithRole = async (
   return await makeUserAccountBase({ ...userAccountData(), role })
 }
 
+const makeUserAccount = async (): Promise<{ accessToken: string }> => {
+  return await makeUserAccountBase(userAccountData())
+}
+
 interface AddAccountWithRoleModel extends AddAccountModel {
   role?: string
 }
@@ -110,8 +114,18 @@ describe('Survey Routes', () => {
   })
 
   describe('GET /surveys', () => {
-    it('Should return 403 if surveys is empty', async () => {
+    it('Should return 403 if no token is provided', async () => {
       await request(app).get('/api/surveys').send().expect(403)
+    })
+
+    it('Should return 200 on success', async () => {
+      const { accessToken } = await makeUserAccount()
+      await surveyCollection.insertOne(makeFakeSurvey())
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .send()
+        .expect(200)
     })
   })
 })
