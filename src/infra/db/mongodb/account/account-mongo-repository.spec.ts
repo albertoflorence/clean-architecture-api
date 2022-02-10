@@ -88,24 +88,6 @@ describe('Account MongoDb Repository', () => {
       expect(account).toEqual(data)
     })
 
-    it('Should return an account on success with role', async () => {
-      const sut = makeSut()
-      const data = {
-        accessToken: 'any_token',
-        role: 'any_role',
-        ...makeFakeAddAccount()
-      }
-      await accountCollection.insertOne({ ...data })
-
-      const { id, ...account } = (await sut.loadByToken(
-        'any_token',
-        'any_role'
-      )) as AccountModel
-
-      expect(id).toBeTruthy()
-      expect(account).toEqual(data)
-    })
-
     it('Should return null if loadByToken fails', async () => {
       const sut = makeSut()
       const data = {

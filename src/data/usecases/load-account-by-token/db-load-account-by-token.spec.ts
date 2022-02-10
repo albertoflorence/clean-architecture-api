@@ -55,8 +55,8 @@ describe('Db LoadAccountByToken', () => {
       loadAccountByTokenRepositoryStub,
       'loadByToken'
     )
-    await sut.loadByToken('any_token', 'any_role')
-    expect(loadByTokenSpy).toHaveBeenCalledWith('any_token', 'any_role')
+    await sut.loadByToken('any_token')
+    expect(loadByTokenSpy).toHaveBeenCalledWith('any_token')
   })
 
   it('Should return null if Decrypter returns null', async () => {

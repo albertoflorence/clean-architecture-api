@@ -38,11 +38,8 @@ export class AccountMongoRepository
     )
   }
 
-  async loadByToken(
-    accessToken: string,
-    role?: string | undefined
-  ): Promise<AccountModel | null> {
-    const account = await this.collection.findOne({ accessToken, role })
+  async loadByToken(accessToken: string): Promise<AccountModel | null> {
+    const account = await this.collection.findOne({ accessToken })
     return account && MongoDbHelper.map(account)
   }
 }
