@@ -11,10 +11,7 @@ interface SutTypes {
 }
 
 class LoadAccountByTokenStub implements LoadAccountByToken {
-  loadByToken = async (
-    token: string,
-    role?: string
-  ): Promise<AccountModel | null> => makeFakeAccount()
+  loadByToken = async (): Promise<AccountModel | null> => makeFakeAccount()
 }
 
 const makeSut = (role?: string): SutTypes => {
@@ -27,7 +24,8 @@ const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_email@mail.com',
-  password: 'hashed_password'
+  password: 'hashed_password',
+  role: 'any_role'
 })
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -58,11 +56,29 @@ describe('Auth Middleware', () => {
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
 
-  it('Should return 200 if LoadAccountByToken returns an account', async () => {
-    const { sut } = makeSut()
+  it('Should return 403 if LoadAccountByToken returns an unauthorized role', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut('admin')
+    jest.spyOn(loadAccountByTokenStub, 'loadByToken')
     const httpResponse = await sut.handler(makeFakeRequest())
-    const accountId = makeFakeAccount().id
-    expect(httpResponse).toEqual(ok({ accountId }))
+    expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
+  })
+
+  it('Should return 200 if LoadAccountByToken returns an authorized role', async () => {
+    const { sut } = makeSut('any_role')
+    const httpResponse = await sut.handler(makeFakeRequest())
+    expect(httpResponse).toEqual(ok({ accountId: makeFakeAccount().id }))
+  })
+
+  it('Should return 200 if LoadAccountByToken returns an admin account', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut('any_role')
+    jest
+      .spyOn(loadAccountByTokenStub, 'loadByToken')
+      .mockReturnValueOnce(
+        Promise.resolve({ ...makeFakeAccount(), role: 'admin' })
+      )
+
+    const httpResponse = await sut.handler(makeFakeRequest())
+    expect(httpResponse).toEqual(ok({ accountId: makeFakeAccount().id }))
   })
 
   it('Should return 500 if LoadAccountByToken throws', async () => {
