@@ -42,4 +42,11 @@ describe('Db Load Surveys', () => {
     await sut.load()
     expect(loadSpy).toHaveBeenCalled()
   })
+
+  it('Should return surveys on LoadSurveysRepository success', async () => {
+    const { sut, loadSurveysRepositoryStub } = makeSut()
+    jest.spyOn(loadSurveysRepositoryStub, 'load')
+    const surveys = await sut.load()
+    expect(surveys).toEqual([makeFakeSurvey()])
+  })
 })
