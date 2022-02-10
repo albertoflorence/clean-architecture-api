@@ -26,28 +26,26 @@ const makeFakeSurvey = (): AddSurveyModel => ({
   date: fakeDate
 })
 
-const makeUserAccountWithRole = async (
-  role?: string
-): Promise<{ accessToken: string }> => {
-  return await makeUserAccountBase({ ...userAccountData(), role })
+const makeAccessTokenWithRole = async (role?: string): Promise<string> => {
+  return await makeAccessTokenBase({ ...userAccountData(), role })
 }
 
-const makeUserAccount = async (): Promise<{ accessToken: string }> => {
-  return await makeUserAccountBase(userAccountData())
+const makeAccessToken = async (): Promise<string> => {
+  return await makeAccessTokenBase(userAccountData())
 }
 
 interface AddAccountWithRoleModel extends AddAccountModel {
   role?: string
 }
 
-const makeUserAccountBase = async (
+const makeAccessTokenBase = async (
   userAccount: AddAccountWithRoleModel
-): Promise<{ accessToken: string }> => {
+): Promise<string> => {
   const user = await accountCollection.insertOne(userAccount)
   const accessToken = generateUserToken(user.insertedId)
   await updateUserAccountToken(user, accessToken)
 
-  return { accessToken }
+  return accessToken
 }
 
 const updateUserAccountToken = async (
@@ -95,7 +93,7 @@ describe('Survey Routes', () => {
     })
 
     it('Should return 403 on survey if role is not admin', async () => {
-      const { accessToken } = await makeUserAccountWithRole('not_admin')
+      const accessToken = await makeAccessTokenWithRole('not_admin')
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -104,7 +102,7 @@ describe('Survey Routes', () => {
     })
 
     it('Should return 204 on survey if role is admin', async () => {
-      const { accessToken } = await makeUserAccountWithRole('admin')
+      const accessToken = await makeAccessTokenWithRole('admin')
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -119,7 +117,7 @@ describe('Survey Routes', () => {
     })
 
     it('Should return 200 on success', async () => {
-      const { accessToken } = await makeUserAccount()
+      const accessToken = await makeAccessToken()
       await surveyCollection.insertOne(makeFakeSurvey())
       await request(app)
         .get('/api/surveys')
