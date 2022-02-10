@@ -17,7 +17,10 @@ export class AuthMiddleware implements Middleware {
           accessToken,
           this.role
         )
-        if (account) {
+        if (
+          account &&
+          (account.role === this.role || account.role === 'admin')
+        ) {
           return ok({ accountId: account.id })
         }
       }
