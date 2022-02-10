@@ -7,6 +7,8 @@ import {
 } from '../../infra/db/mongodb/helpers/mongo-helper'
 import app from '../config/app'
 import { AddSurveyModel } from '../../domain/usecases/add-survey'
+import { Document, ObjectId } from 'mongodb'
+import { AddAccountModel } from '../../domain/usecases'
 
 let surveyCollection: Collection
 let accountCollection: Collection
@@ -25,24 +27,46 @@ const makeFakeSurvey = (): AddSurveyModel => ({
 })
 
 const makeUserAccountWithRole = async (
-  role: string
+  role?: string
 ): Promise<{ accessToken: string }> => {
-  const res = await accountCollection.insertOne({
-    name: 'valid_name',
-    email: 'valid_email@mail.com',
-    password: 'valid_password',
-    accessToken: 'any_token',
-    role
-  })
-  const id = res.insertedId.toHexString()
-  const accessToken = jwt.sign(id, env.jwtSecret)
-  await accountCollection.updateOne(
-    { _id: res.insertedId },
-    { $set: { accessToken } }
-  )
+  return await makeUserAccountBase({ ...userAccountData(), role })
+}
+
+interface AddAccountWithRoleModel extends AddAccountModel {
+  role?: string
+}
+
+const makeUserAccountBase = async (
+  userAccount: AddAccountWithRoleModel
+): Promise<{ accessToken: string }> => {
+  const user = await accountCollection.insertOne(userAccount)
+  const accessToken = generateUserToken(user.insertedId)
+  await updateUserAccountToken(user, accessToken)
 
   return { accessToken }
 }
+
+const updateUserAccountToken = async (
+  user: Document,
+  accessToken: string
+): Promise<void> => {
+  await accountCollection.updateOne(
+    { _id: user.insertedId },
+    { $set: { accessToken } }
+  )
+}
+
+const generateUserToken = (userId: ObjectId): string => {
+  const id = userId.toHexString()
+  const accessToken = jwt.sign(id, env.jwtSecret)
+  return accessToken
+}
+
+const userAccountData = (): AddAccountModel => ({
+  name: 'valid_name',
+  email: 'valid_email@mail.com',
+  password: 'valid_password'
+})
 
 describe('Survey Routes', () => {
   beforeAll(async () => {
@@ -82,6 +106,12 @@ describe('Survey Routes', () => {
         .set('x-access-token', accessToken)
         .send(makeFakeSurvey())
         .expect(204)
+    })
+  })
+
+  describe('GET /surveys', () => {
+    it('Should return 403 if surveys is empty', async () => {
+      await request(app).get('/api/surveys').send().expect(403)
     })
   })
 })
