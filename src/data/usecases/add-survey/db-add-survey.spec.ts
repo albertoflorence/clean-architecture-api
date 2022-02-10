@@ -16,6 +16,8 @@ const makeSut = (): SutTypes => {
   return { sut, addSurveyRepositoryStub }
 }
 
+const fakeDate = new Date()
+
 const makeFakeAddSurveyData = (): AddSurveyModel => ({
   question: 'any_question',
   answers: [
@@ -23,7 +25,8 @@ const makeFakeAddSurveyData = (): AddSurveyModel => ({
       image: 'any_image',
       answer: 'any_answer'
     }
-  ]
+  ],
+  date: fakeDate
 })
 
 describe('Db AddSurvey', () => {

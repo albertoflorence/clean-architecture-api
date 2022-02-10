@@ -8,6 +8,7 @@ const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
 
+const fakeDate = new Date()
 const makeFakeAddSurveyData = (): AddSurveyModel => ({
   question: 'any_question',
   answers: [
@@ -16,7 +17,8 @@ const makeFakeAddSurveyData = (): AddSurveyModel => ({
       answer: 'any_answer'
     },
     { answer: 'another_answer' }
-  ]
+  ],
+  date: fakeDate
 })
 
 describe('Survey Mongo Repository', () => {

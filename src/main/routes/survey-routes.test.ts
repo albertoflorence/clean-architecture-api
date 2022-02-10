@@ -11,6 +11,7 @@ import { AddSurveyModel } from '../../domain/usecases/add-survey'
 let surveyCollection: Collection
 let accountCollection: Collection
 
+const fakeDate = new Date()
 const makeFakeSurvey = (): AddSurveyModel => ({
   question: 'any_question',
   answers: [
@@ -19,7 +20,8 @@ const makeFakeSurvey = (): AddSurveyModel => ({
       answer: 'http://image-name.com'
     },
     { answer: 'another_answer' }
-  ]
+  ],
+  date: fakeDate
 })
 
 const makeUserAccountWithRole = async (

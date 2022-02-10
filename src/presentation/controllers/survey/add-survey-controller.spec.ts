@@ -53,9 +53,14 @@ describe('Add Survey Controller', () => {
 
   it('Should call AddSurvey with correct values', async () => {
     const { sut, addSurveyStub } = makeSut()
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date())
     const addSpy = jest.spyOn(addSurveyStub, 'add')
     await sut.handler(makeFakeRequest())
-    expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+    expect(addSpy).toHaveBeenCalledWith({
+      ...makeFakeRequest().body,
+      date: new Date()
+    })
   })
 
   it('Should return 500 if AddSurvey throws', async () => {
