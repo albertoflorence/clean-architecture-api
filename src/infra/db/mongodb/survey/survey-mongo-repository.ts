@@ -21,7 +21,6 @@ export class SurveyMongoRepository
 
   async load(): Promise<SurveyModel[]> {
     const surveys = await this.collection.find().toArray()
-    console.log(surveys)
     return this.mapCollection(surveys)
   }
 }
