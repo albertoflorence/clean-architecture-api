@@ -9,8 +9,7 @@ export class UniqueFieldMongoAdapter implements UniqueValidator {
   }
 
   async isUnique(filter: Object): Promise<boolean> {
-    await this.collection.findOne(filter)
-
-    return (await this.collection.countDocuments()) === 0
+    const document = await this.collection.findOne(filter)
+    return document === null
   }
 }

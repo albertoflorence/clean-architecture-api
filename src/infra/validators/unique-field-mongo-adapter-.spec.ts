@@ -32,6 +32,8 @@ describe('Unique Field Mongo Adapter', () => {
 
   it('Should return true if value not exist', async () => {
     const sut = makeSut()
+    await collection.insertOne({ field: 'unique_value' })
+
     const input = { field: 'any_value' }
 
     const isUnique = await sut.isUnique(input)
