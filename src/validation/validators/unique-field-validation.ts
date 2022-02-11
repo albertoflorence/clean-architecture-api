@@ -9,7 +9,9 @@ export class UniqueFieldValidation implements ValidationAsync {
   ) {}
 
   async validate(input: any): Promise<Error | null> {
-    return (await this.uniqueValidator.isUnique(input))
+    return (await this.uniqueValidator.isUnique({
+      [this.paramName]: input[this.paramName]
+    }))
       ? null
       : new UniqueParamError(this.paramName)
   }
