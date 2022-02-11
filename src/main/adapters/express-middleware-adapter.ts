@@ -21,7 +21,7 @@ export const adaptMiddleware =
           next()
         } else {
           res.status(statusCode).json({
-            error: body.error
+            error: body.message
           })
         }
       })
