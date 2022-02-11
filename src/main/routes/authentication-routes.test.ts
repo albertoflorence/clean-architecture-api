@@ -32,15 +32,12 @@ describe('Authentication Routes', () => {
 
   describe('POST /signup', () => {
     it('Should return 307 on signup', async () => {
-      await request(app)
-        .post('/api/signup')
-        .send({
-          name: 'valid_name',
-          email: 'valid_email@mail.com',
-          password: 'valid_password',
-          passwordConfirm: 'valid_password'
-        })
-        .expect(307)
+      await request(app).post('/api/signup').send(makeFakeAccount()).expect(307)
+    })
+
+    it('Should return 400 on signup if e-mail already exist', async () => {
+      await accountCollection.insertOne(makeFakeAccount())
+      await request(app).post('/api/signup').send(makeFakeAccount()).expect(400)
     })
   })
 
