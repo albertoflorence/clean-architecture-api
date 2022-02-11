@@ -1,9 +1,5 @@
 import { Response, Request } from 'express'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse
-} from '../../presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 export const adaptRoute =
   (controller: Controller) => (req: Request, res: Response) => {
@@ -14,7 +10,7 @@ export const adaptRoute =
       .handler(httpRequest)
       .then(({ statusCode, body, redirect }: HttpResponse) => {
         if (redirect) {
-          return res.redirect(statusCode, redirect)
+          return res.redirect(statusCode || 302, redirect)
         }
 
         if (statusCode > 199 && statusCode < 300) {

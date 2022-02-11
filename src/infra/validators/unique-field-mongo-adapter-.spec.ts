@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb'
-import { MongoDbHelper } from '../db/mongodb/helpers/mongo-helper'
-import { UniqueFieldMongoAdapter } from './unique-field-mongo-adapter'
+import { MongoDbHelper } from '@/infra/db'
+import { UniqueFieldMongoAdapter } from '@/infra/validators'
 
 describe('Unique Field Mongo Adapter', () => {
   let collection: Collection

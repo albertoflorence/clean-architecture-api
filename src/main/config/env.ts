@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-export default {
+export const env = {
   mongoUrl: process.env.MONGO_URL as string,
   port: process.env.PORT as string,
   jwtSecret: process.env.JWT_SECRET as string,

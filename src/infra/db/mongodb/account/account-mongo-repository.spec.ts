@@ -1,8 +1,7 @@
 import { Collection } from 'mongodb'
-import { AccountModel } from '../../../../domain/models/account'
-import { AddAccountModel } from '../../../../domain/usecases/add-account'
-import { MongoDbHelper } from '../helpers/mongo-helper'
-import { AccountMongoRepository } from './account-mongo-repository'
+import { AccountModel } from '@/domain/models'
+import { AddAccountModel } from '@/domain/usecases'
+import { AccountMongoRepository, MongoDbHelper } from '@/infra/db'
 
 let accountCollection: Collection
 
@@ -11,8 +10,6 @@ const makeFakeAddAccount = (): AddAccountModel => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })
-
-// const insertOneAccountDb = async (): Promise<Document> => await accountCollection.insertOne(makeFakeAddAccount())
 
 describe('Account MongoDb Repository', () => {
   beforeAll(async () => {

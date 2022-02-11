@@ -1,13 +1,7 @@
-import { SignUpController } from './signup-controller'
-import {
-  AddAccount,
-  AddAccountModel,
-  HttpRequest,
-  redirect,
-  serverError,
-  badRequest,
-  ValidationAsync
-} from './signup-controller-protocols'
+import { AddAccount, AddAccountModel } from '@/domain/usecases'
+import { serverError, badRequest, redirect } from '@/presentation/helpers'
+import { ValidationAsync, HttpRequest } from '@/presentation/protocols'
+import { SignUpController } from '@/presentation/controllers'
 
 interface SutTypes {
   sut: SignUpController

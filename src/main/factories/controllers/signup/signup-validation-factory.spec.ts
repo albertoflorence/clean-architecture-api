@@ -1,17 +1,17 @@
-import { UniqueFieldMongoAdapter } from '../../../../infra/validators/unique-field-mongo-adapter'
-import { Validation, ValidationAsync } from '../../../../presentation/protocols'
+import { UniqueFieldMongoAdapter } from '@/infra/validators/unique-field-mongo-adapter'
+import { Validation, ValidationAsync } from '@/presentation/protocols'
+import { EmailValidator } from '@/validation/protocols'
 import {
-  EmailValidator,
   RequireFieldValidation,
   CompareFieldsValidation,
   EmailValidation,
   ValidationCompositeAsync,
   UniqueFieldValidation
-} from '../../../../validation'
+} from '@/validation/validators'
 
 import { makeSignUpValidation } from './signup-validation-factory'
 
-jest.mock('../../../../validation/validators/validation-composite-async')
+jest.mock('@/validation/validators/validation-composite-async')
 
 const makeEmailValidatorStub = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {

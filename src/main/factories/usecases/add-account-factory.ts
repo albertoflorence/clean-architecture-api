@@ -1,10 +1,8 @@
-import {
-  AddAccountRepository,
-  DbAddAccount
-} from '../../../data/usecases/add-account/protocols'
-import { BcryptAdapter } from '../../../infra/cryptography/bcrypt-adapter'
-import { AccountMongoRepository } from '../../../infra/db/mongodb/account/account-mongo-repository'
-import env from '../../config/env'
+import { AddAccountRepository } from '@/data/protocols'
+import { DbAddAccount } from '@/data/usecases'
+import { BcryptAdapter } from '@/infra/cryptography'
+import { AccountMongoRepository } from '@/infra/db'
+import { env } from '@/main/config'
 
 export const makeDbAddAccount = (): AddAccountRepository => {
   return new DbAddAccount(

@@ -1,7 +1,7 @@
 import request from 'supertest'
-import app from '../config/app'
+import { app } from '@/main/config'
 
-describe('BodyParser Middlware', () => {
+describe('BodyParser Middleware', () => {
   it('Should parse body as json', async () => {
     app.post('/test_urlencoded', (req, res) => {
       res.send(req.body)

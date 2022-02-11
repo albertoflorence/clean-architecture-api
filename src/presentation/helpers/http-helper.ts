@@ -1,6 +1,5 @@
-import { ServerError } from '../errors/serverError'
-import { UnauthorizedError } from '../errors/unauthorized-error'
-import { HttpResponse } from '../protocols/http'
+import { ServerError, UnauthorizedError } from '@/presentation/errors'
+import { HttpResponse } from '@/presentation/protocols'
 
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
@@ -32,10 +31,7 @@ export const noContent = (): HttpResponse => ({
   body: null
 })
 
-export const redirect = (
-  url: string,
-  statusCode: number = 302
-): HttpResponse => ({
+export const redirect = (url: string, statusCode: number): HttpResponse => ({
   statusCode,
   redirect: url,
   body: {}

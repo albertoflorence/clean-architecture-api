@@ -1,10 +1,10 @@
+import { LoginController } from '@/presentation/controllers'
+import { Controller } from '@/presentation/protocols'
 import {
-  Controller,
-  LoginController
-} from '../../../../presentation/controllers/login/login-controller-protocols'
+  makeLogControllerDecorator,
+  makeDbAuthentication
+} from '@/main/factories'
 import { makeLoginValidation } from './login-validation-factory'
-import { makeDbAuthentication } from '../../usecases/authentication-factory'
-import { makeLogControllerDecorator } from '../../decorators/log-controller-decorator-factory'
 
 export const makeLoginController = (): Controller =>
   makeLogControllerDecorator(

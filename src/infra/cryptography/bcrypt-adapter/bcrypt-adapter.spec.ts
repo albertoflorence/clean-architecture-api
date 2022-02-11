@@ -1,4 +1,4 @@
-import { BcryptAdapter } from './bcrypt-adapter'
+import { BcryptAdapter } from '@/infra/cryptography'
 import bcrypt from 'bcrypt'
 
 interface SutTypes {

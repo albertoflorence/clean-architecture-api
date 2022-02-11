@@ -1,7 +1,7 @@
-import { LoadSurveysController } from './load-survey-controller'
-import { LoadSurveys } from '../../../domain/usecases/load-surveys'
-import { SurveyModel } from '../../../domain/models/survey'
-import { noContent, ok, serverError } from '../../helpers/http-helper'
+import { LoadSurveysController } from '@/presentation/controllers'
+import { LoadSurveys } from '@/domain/usecases'
+import { SurveyModel } from '@/domain/models'
+import { noContent, ok, serverError } from '@/presentation/helpers'
 
 interface SutTypes {
   sut: LoadSurveysController

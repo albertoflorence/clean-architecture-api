@@ -1,5 +1,5 @@
-import { LogErrorRepository } from '../../../../data/protocols/db/log/log-error-repository'
-import { MongoDbHelper } from '../helpers/mongo-helper'
+import { LogErrorRepository } from '@/data/protocols'
+import { MongoDbHelper } from '@/infra/db'
 
 export class LogErrorMongoRepository implements LogErrorRepository {
   saveLog = async (stack: string): Promise<void> => {

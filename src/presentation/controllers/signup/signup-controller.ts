@@ -1,13 +1,11 @@
+import { AddAccount } from '@/domain/usecases'
+import { badRequest, redirect, serverError } from '@/presentation/helpers'
 import {
-  HttpRequest,
-  HttpResponse,
   Controller,
-  badRequest,
-  serverError,
-  AddAccount,
-  redirect,
-  ValidationAsync
-} from './signup-controller-protocols'
+  ValidationAsync,
+  HttpRequest,
+  HttpResponse
+} from '@/presentation/protocols'
 
 export class SignUpController implements Controller {
   constructor(

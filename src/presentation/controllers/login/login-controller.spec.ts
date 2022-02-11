@@ -1,14 +1,12 @@
+import { Authentication, AuthenticationModel } from '@/domain/usecases'
 import {
-  Authentication,
-  badRequest,
   serverError,
   unauthorized,
-  HttpRequest,
-  Validation,
-  LoginController,
-  ok,
-  AuthenticationModel
-} from './login-controller-protocols'
+  badRequest,
+  ok
+} from '@/presentation/helpers'
+import { Validation, HttpRequest } from '@/presentation/protocols'
+import { LoginController } from '@/presentation/controllers'
 
 interface SutTypes {
   sut: LoginController

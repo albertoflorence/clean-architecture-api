@@ -1,7 +1,7 @@
 import request from 'supertest'
-import app from '../config/app'
+import { app } from '@/main/config'
 
-describe('Content-type Middlware', () => {
+describe('Content-type Middleware', () => {
   it('Should return content-type json as default', async () => {
     app.get('/test_content_type', (req, res) => {
       res.send('')

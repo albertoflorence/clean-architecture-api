@@ -1,6 +1,6 @@
-import { InvalidParamError } from '../../presentation/errors'
-import { Validation, ValidationAsync } from '../../presentation/protocols'
-import { ValidationCompositeAsync } from './validation-composite-async'
+import { InvalidParamError } from '@/presentation/errors'
+import { Validation, ValidationAsync } from '@/presentation/protocols'
+import { ValidationCompositeAsync } from '@/validation/validators'
 
 interface SutTypes {
   sut: ValidationCompositeAsync

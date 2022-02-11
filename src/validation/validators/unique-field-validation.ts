@@ -1,6 +1,6 @@
-import { UniqueValidator } from '../'
-import { UniqueParamError } from '../../presentation/errors'
-import { ValidationAsync } from '../../presentation/protocols'
+import { UniqueValidator } from '@/validation/protocols'
+import { UniqueParamError } from '@/presentation/errors'
+import { ValidationAsync } from '@/presentation/protocols'
 
 export class UniqueFieldValidation implements ValidationAsync {
   constructor(

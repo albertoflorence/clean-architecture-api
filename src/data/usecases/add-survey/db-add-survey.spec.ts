@@ -1,5 +1,5 @@
-import { AddSurvey, AddSurveyModel } from '../../../domain/usecases'
-import { DbAddSurvey } from './db-add-survey'
+import { AddSurvey, AddSurveyModel } from '@/domain/usecases'
+import { DbAddSurvey } from '@/data/usecases'
 
 class AddSurveyRepositoryStub implements AddSurvey {
   async add(data: AddSurveyModel): Promise<void> {}

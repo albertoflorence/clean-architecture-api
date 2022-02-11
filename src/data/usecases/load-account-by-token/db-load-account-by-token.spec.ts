@@ -1,7 +1,6 @@
-import { DbLoadAccountByToken } from './db-load-account-by-token'
-import { Decrypter } from '../../protocols/cryptography/decrypter'
-import { LoadAccountByTokenRepository } from '../../protocols/db/account/load-account-by-token-repository'
-import { AccountModel } from '../add-account/protocols'
+import { Decrypter, LoadAccountByTokenRepository } from '@/data/protocols'
+import { AccountModel } from '@/domain/models'
+import { DbLoadAccountByToken } from '@/data/usecases'
 
 class DecrypterStub implements Decrypter {
   decrypt = async (token: string): Promise<string | null> => 'any_id'

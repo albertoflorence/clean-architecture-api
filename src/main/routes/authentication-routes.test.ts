@@ -1,11 +1,8 @@
 import request from 'supertest'
-import {
-  Collection,
-  MongoDbHelper
-} from '../../infra/db/mongodb/helpers/mongo-helper'
-import app from '../config/app'
+import { MongoDbHelper } from '@/infra/db'
+import { app, env } from '@/main/config'
 import { hash } from 'bcrypt'
-import env from '../config/env'
+import { Collection } from 'mongodb'
 
 const makeFakeAccount = (): any => ({
   name: 'valid_name',

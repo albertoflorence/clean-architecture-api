@@ -1,4 +1,4 @@
-import { Validation, ValidationAsync } from '../../presentation/protocols'
+import { Validation, ValidationAsync } from '@/presentation/protocols'
 
 export class ValidationCompositeAsync implements ValidationAsync {
   constructor(

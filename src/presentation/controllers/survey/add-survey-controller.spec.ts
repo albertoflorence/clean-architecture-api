@@ -1,7 +1,8 @@
-import { badRequest, noContent, serverError } from '../../helpers'
-import { HttpRequest, Validation } from '../../protocols'
-import { AddSurveyController } from './add-survey-controller'
-import { AddSurvey, AddSurveyModel } from '../../../domain/usecases'
+import { AddSurvey, AddSurveyModel } from '@/domain/usecases'
+import { badRequest, serverError, noContent } from '@/presentation/helpers'
+import { Validation, HttpRequest } from '@/presentation/protocols'
+import { AddSurveyController } from '@/presentation/controllers'
+
 class ValidationStub implements Validation {
   validate = (input: any): Error | null => null
 }

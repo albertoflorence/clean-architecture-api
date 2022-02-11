@@ -1,7 +1,5 @@
 import { Collection } from 'mongodb'
-import { LogErrorMongoRepository } from '.'
-
-import { MongoDbHelper } from '../helpers/mongo-helper'
+import { LogErrorMongoRepository, MongoDbHelper } from '@/infra/db'
 
 describe('Account MongoDb Repository', () => {
   let collection: Collection

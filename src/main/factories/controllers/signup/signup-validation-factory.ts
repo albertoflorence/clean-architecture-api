@@ -1,13 +1,13 @@
-import { EmailValidatorAdapter } from '../../../../infra/validators'
-import { UniqueFieldMongoAdapter } from '../../../../infra/validators/unique-field-mongo-adapter'
-import { ValidationAsync, Validation } from '../../../../presentation/protocols'
+import { EmailValidatorAdapter } from '@/infra/validators'
+import { UniqueFieldMongoAdapter } from '@/infra/validators/unique-field-mongo-adapter'
+import { ValidationAsync, Validation } from '@/presentation/protocols'
 import {
   CompareFieldsValidation,
   EmailValidation,
   RequireFieldValidation,
   UniqueFieldValidation,
   ValidationCompositeAsync
-} from '../../../../validation'
+} from '@/validation/validators'
 
 export const makeSignUpValidation = (): ValidationAsync => {
   const validations: Array<Validation | ValidationAsync> = [

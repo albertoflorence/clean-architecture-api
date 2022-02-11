@@ -1,5 +1,6 @@
-import { UniqueValidator } from '../../validation'
-import { Collection, MongoDbHelper } from '../db/mongodb/helpers/mongo-helper'
+import { UniqueValidator } from '@/validation/protocols'
+import { Collection } from 'mongodb'
+import { MongoDbHelper } from '@/infra/db'
 
 export class UniqueFieldMongoAdapter implements UniqueValidator {
   constructor(private readonly collectionName: string) {}

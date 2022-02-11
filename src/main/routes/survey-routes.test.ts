@@ -1,14 +1,9 @@
 import jwt from 'jsonwebtoken'
-import env from '../config/env'
+import { env, app } from '@/main/config'
 import request from 'supertest'
-import {
-  MongoDbHelper,
-  Collection
-} from '../../infra/db/mongodb/helpers/mongo-helper'
-import app from '../config/app'
-import { AddSurveyModel } from '../../domain/usecases/add-survey'
-import { Document, ObjectId } from 'mongodb'
-import { AddAccountModel } from '../../domain/usecases'
+import { MongoDbHelper } from '@/infra/db'
+import { AddSurveyModel, AddAccountModel } from '@/domain/usecases'
+import { Collection, Document, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
 let accountCollection: Collection

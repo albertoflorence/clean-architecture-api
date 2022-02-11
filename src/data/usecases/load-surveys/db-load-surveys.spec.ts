@@ -1,7 +1,6 @@
-import { DbLoadSurveys } from './db-load-surveys'
-
-import { LoadSurveysRepository } from '../../protocols/db/survey/load-surveys-repository'
-import { SurveyModel } from '../../../domain/models/survey'
+import { DbLoadSurveys } from '@/data/usecases'
+import { LoadSurveysRepository } from '@/data/protocols'
+import { SurveyModel } from '@/domain/models'
 
 class LoadSurveysRepositoryStub implements LoadSurveysRepository {
   load = async (): Promise<SurveyModel[]> => [makeFakeSurvey()]

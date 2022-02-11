@@ -1,9 +1,6 @@
-import {
-  DbAddAccount,
-  Hasher,
-  AddAccountRepository,
-  AddAccountModel
-} from './protocols'
+import { AddAccountRepository, Hasher } from '@/data/protocols'
+import { AddAccountModel } from '@/domain/usecases'
+import { DbAddAccount } from '@/data/usecases'
 
 interface SutTypes {
   sut: DbAddAccount
