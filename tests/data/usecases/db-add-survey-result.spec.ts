@@ -22,4 +22,10 @@ describe('Db AddSurvey', () => {
       mockAddSurveyResultParams()
     )
   })
+
+  it('Should return a survey result on success', async () => {
+    const { sut, addSurveyResultRepositoryStub } = makeSut()
+    const surveyResult = await sut.add(mockAddSurveyResultParams())
+    expect(surveyResult).toEqual(addSurveyResultRepositoryStub.result)
+  })
 })
