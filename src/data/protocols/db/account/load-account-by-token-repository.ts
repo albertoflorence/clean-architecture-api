@@ -1,5 +1,9 @@
-import { AccountModel } from '@/domain/models'
+import { LoadAccountByToken } from '@/domain/usecases'
 
 export interface LoadAccountByTokenRepository {
-  loadByToken: (accessToken: string) => Promise<AccountModel | null>
+  loadByToken: (accessToken: string) => LoadAccountByTokenRepository.Result
+}
+
+export namespace LoadAccountByTokenRepository {
+  export type Result = LoadAccountByToken.Result
 }

@@ -1,14 +1,16 @@
-export interface AddSurveyModel {
-  question: string
-  answers: SurveyAnswer[]
-  date: Date
-}
-
-export interface SurveyAnswer {
-  image?: string
-  answer: string
-}
-
 export interface AddSurvey {
-  add: (data: AddSurveyModel) => Promise<void>
+  add: (data: AddSurvey.Params) => AddSurvey.Result
+}
+
+export namespace AddSurvey {
+  export interface Params {
+    question: string
+    answers: SurveyAnswer[]
+    date: Date
+  }
+  interface SurveyAnswer {
+    image?: string
+    answer: string
+  }
+  export type Result = Promise<void>
 }

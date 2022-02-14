@@ -1,4 +1,4 @@
-import { AddSurveyModel } from '@/domain/usecases'
+import { mockAddSurveyParams } from '@/../tests/domain/mocks'
 import { MongoDbHelper, SurveyMongoRepository } from '@/infra/db'
 import { Collection } from 'mongodb'
 
@@ -7,19 +7,6 @@ let surveyCollection: Collection
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
-
-const fakeDate = new Date()
-const makeFakeAddSurveyData = (): AddSurveyModel => ({
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer'
-    },
-    { answer: 'another_answer' }
-  ],
-  date: fakeDate
-})
 
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
@@ -38,8 +25,8 @@ describe('Survey Mongo Repository', () => {
   describe('add', () => {
     it('Should add a survey on success', async () => {
       const sut = makeSut()
-      await sut.add(makeFakeAddSurveyData())
-      const survey = await surveyCollection.findOne(makeFakeAddSurveyData())
+      await sut.add(mockAddSurveyParams())
+      const survey = await surveyCollection.findOne(mockAddSurveyParams())
       expect(survey).toBeTruthy()
     })
   })
@@ -48,13 +35,13 @@ describe('Survey Mongo Repository', () => {
     it('Should load surveys on success', async () => {
       const sut = makeSut()
       await surveyCollection.insertMany([
-        makeFakeAddSurveyData(),
-        makeFakeAddSurveyData()
+        mockAddSurveyParams(),
+        mockAddSurveyParams()
       ])
       const surveys = await sut.load()
 
       expect(surveys.length).toBe(2)
-      expect(surveys[0].answers).toEqual(makeFakeAddSurveyData().answers)
+      expect(surveys[0].answers).toEqual(mockAddSurveyParams().answers)
     })
   })
 })

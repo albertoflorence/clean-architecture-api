@@ -11,7 +11,7 @@ interface SutTypes {
 }
 
 class LoadAccountByTokenStub implements LoadAccountByToken {
-  loadByToken = async (): Promise<AccountModel | null> => makeFakeAccount()
+  loadByToken = async (): LoadAccountByToken.Result => makeFakeAccount()
 }
 
 const makeSut = (role?: string): SutTypes => {

@@ -1,5 +1,5 @@
 import { AddAccountRepository, Hasher } from '@/data/protocols'
-import { AddAccount, AddAccountModel } from '@/domain/usecases'
+import { AddAccount } from '@/domain/usecases'
 
 export class DbAddAccount implements AddAccount {
   constructor(
@@ -7,7 +7,7 @@ export class DbAddAccount implements AddAccount {
     private readonly addAccountRepository: AddAccountRepository
   ) {}
 
-  add = async (account: AddAccountModel): Promise<boolean> => {
+  add = async (account: AddAccount.Params): Promise<AddAccount.Result> => {
     return await this.addAccountRepository.add({
       ...account,
       password: await this.hasher.hash(account.password)

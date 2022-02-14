@@ -1,4 +1,4 @@
-import { UniqueFieldMongoAdapter } from '@/infra/validators/unique-field-mongo-adapter'
+import { UniqueFieldMongoAdapter } from '@/infra/validators'
 import { Validation, ValidationAsync } from '@/presentation/protocols'
 import { EmailValidator } from '@/validation/protocols'
 import {

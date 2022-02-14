@@ -1,9 +1,12 @@
 export interface AddAccount {
-  add: (account: AddAccountModel) => Promise<boolean>
+  add: (account: AddAccount.Params) => Promise<AddAccount.Result>
 }
 
-export interface AddAccountModel {
-  name: string
-  email: string
-  password: string
+export namespace AddAccount {
+  export interface Params {
+    name: string
+    email: string
+    password: string
+  }
+  export type Result = boolean
 }

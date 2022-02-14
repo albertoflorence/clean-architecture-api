@@ -1,3 +1,10 @@
 export interface UpdateAccessTokenRepository {
-  updateAccessToken: (id: string, token: string) => Promise<void>
+  updateAccessToken: (
+    id: string,
+    token: string
+  ) => UpdateAccessTokenRepository.Result
+}
+
+export namespace UpdateAccessTokenRepository {
+  export type Result = Promise<void>
 }

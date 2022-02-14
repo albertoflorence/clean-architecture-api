@@ -5,7 +5,6 @@ import {
   UpdateAccessTokenRepository
 } from '@/data/protocols'
 import { AccountModel } from '@/domain/models'
-import { AddAccountModel } from '@/domain/usecases'
 import {
   defaultValues,
   mockAccountModel,
@@ -14,9 +13,11 @@ import {
 
 export class AddAccountRepositoryStub implements AddAccountRepository {
   readonly result: boolean = true
-  account: AddAccountModel = defaultValues(mockAddAccountParams())
+  account: AddAccountRepository.Params = defaultValues(mockAddAccountParams())
 
-  async add(account: AddAccountModel): Promise<boolean> {
+  async add(
+    account: AddAccountRepository.Params
+  ): Promise<AddAccountRepository.Result> {
     this.account = account
     return this.result
   }
@@ -28,7 +29,7 @@ export class LoadAccountByEmailRepositoryStub
   email: string = ''
   result: AccountModel | null = mockAccountModel()
 
-  async loadByEmail(email: string): Promise<AccountModel | null> {
+  async loadByEmail(email: string): LoadAccountByEmailRepository.Result {
     this.email = email
     return this.result
   }
@@ -39,7 +40,10 @@ export class UpdateAccessTokenRepositoryStub
 {
   id: string = ''
   token: string = ''
-  updateAccessToken = async (id: string, token: string): Promise<void> => {
+  updateAccessToken = async (
+    id: string,
+    token: string
+  ): UpdateAccessTokenRepository.Result => {
     this.id = id
     this.token = token
   }
@@ -50,7 +54,7 @@ export class LoadAccountByTokenRepositoryStub
 {
   result = mockAccountModel()
   token = ''
-  loadByToken = async (token: string): Promise<AccountModel | null> => {
+  loadByToken = async (token: string): LoadAccountByTokenRepository.Result => {
     this.token = token
     this.result.accessToken = token
     return this.result

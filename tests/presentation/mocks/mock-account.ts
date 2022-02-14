@@ -1,9 +1,4 @@
-import {
-  AddAccount,
-  AddAccountModel,
-  Authentication,
-  AuthenticationModel
-} from '@/domain/usecases'
+import { AddAccount, Authentication } from '@/domain/usecases'
 import {
   defaultValues,
   mockAccountModel,
@@ -12,9 +7,9 @@ import {
 
 export class AuthenticationStub implements Authentication {
   result: string | null = 'any_token'
-  credentials: AuthenticationModel = defaultValues(mockAuthenticationParams())
+  credentials: Authentication.Params = defaultValues(mockAuthenticationParams())
 
-  auth = async (credentials: AuthenticationModel): Promise<string | null> => {
+  auth = async (credentials: Authentication.Params): Authentication.Result => {
     this.credentials = credentials
     return this.result
   }
@@ -22,8 +17,8 @@ export class AuthenticationStub implements Authentication {
 
 export class AddAccountStub implements AddAccount {
   result: boolean = true
-  account: AddAccountModel = defaultValues(mockAccountModel())
-  async add(account: AddAccountModel): Promise<boolean> {
+  account: AddAccount.Params = defaultValues(mockAccountModel())
+  async add(account: AddAccount.Params): Promise<AddAccount.Result> {
     this.account = account
     return this.result
   }
