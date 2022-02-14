@@ -1,5 +1,5 @@
 import { LoadSurveyById } from '@/domain/usecases'
-import { LoadSurveyByIdRepository } from '../protocols'
+import { LoadSurveyByIdRepository } from '@/data/protocols'
 
 export class DbLoadSurveyById implements LoadSurveyById {
   constructor(
