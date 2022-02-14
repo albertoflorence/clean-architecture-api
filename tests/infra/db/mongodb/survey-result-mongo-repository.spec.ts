@@ -1,11 +1,24 @@
 import { MongoDbHelper, SurveyResultMongoRepository } from '@/infra/db'
 import { Collection } from 'mongodb'
 import { mockMongoAccount, mockMongoSurvey } from '@/tests/infra/db'
+import { AddSurveyResult } from '@/domain/usecases'
 
 let surveyResultCollection: Collection
 
 const makeSut = (): SurveyResultMongoRepository => {
   return new SurveyResultMongoRepository()
+}
+
+const mockSurveyResultParams = async (): Promise<AddSurveyResult.Params> => {
+  const account = await mockMongoAccount()
+  const survey = await mockMongoSurvey()
+  return {
+    accountId: account.id,
+    surveyId: survey.id,
+    question: survey.question,
+    answer: survey.answers[0].answer,
+    date: new Date()
+  }
 }
 
 describe('Survey Result Mongo Repository', () => {
@@ -27,19 +40,25 @@ describe('Survey Result Mongo Repository', () => {
   describe('add', () => {
     it('Should add a survey result', async () => {
       const sut = makeSut()
-      const account = await mockMongoAccount()
-      const survey = await mockMongoSurvey()
+      const surveyResultParams = await mockSurveyResultParams()
+      const { id, ...result } = await sut.add(surveyResultParams)
 
-      const surveyResultParams = {
-        accountId: account.id,
-        surveyId: survey.id,
-        question: survey.question,
-        answer: survey.answers[0].answer,
-        date: new Date()
+      expect(result).toEqual(surveyResultParams)
+    })
+
+    it('Should update the survey result if one already exist', async () => {
+      const sut = makeSut()
+      const surveyResultParams = await mockSurveyResultParams()
+      await surveyResultCollection.insertOne(surveyResultParams)
+      const updateSurveyResult = {
+        ...surveyResultParams,
+        date: new Date(),
+        answer: 'new_answer'
       }
-      const surveyResult = await sut.add(surveyResultParams)
+      const result = await sut.add(updateSurveyResult)
 
-      expect(surveyResult).toEqual(MongoDbHelper.map(surveyResultParams))
+      expect(await surveyResultCollection.countDocuments()).toBe(1)
+      expect(result).toEqual(MongoDbHelper.map(updateSurveyResult))
     })
   })
 })
