@@ -5,5 +5,5 @@ export interface LoadSurveyById {
 }
 
 export namespace LoadSurveyById {
-  export type Result = Promise<SurveyModel>
+  export type Result = Promise<SurveyModel | null>
 }
