@@ -23,9 +23,7 @@ export class SurveyMongoRepository
 
   async loadById(id: string): LoadSurveyByIdRepository.Result {
     const survey = await this.collection.findOne({ _id: new ObjectId(id) })
-    console.log(survey)
-    console.log(this.map(survey))
-    return this.map(survey)
+    return survey && this.map(survey)
   }
 
   private get collection(): Collection {
