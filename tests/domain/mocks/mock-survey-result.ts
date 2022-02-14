@@ -6,7 +6,7 @@ export const mockAddSurveyResultParams = (): AddSurveyResult.Params => ({
   surveyId: 'any_survey_id',
   accountId: 'any_account_id',
   question: 'any_question',
-  answers: 'any_answers',
+  answer: 'any_answer',
   date: fakeDate
 })
 
@@ -15,6 +15,6 @@ export const mockSurveyResultModel = (): SurveyResultModel => ({
   surveyId: 'any_survey_id',
   accountId: 'any_account_id',
   question: 'any_question',
-  answers: 'any_answers',
+  answer: 'any_answer',
   date: fakeDate
 })
