@@ -55,8 +55,7 @@ describe('Survey Mongo Repository', () => {
         _id: insertedId
       })
       const survey = await sut.loadById(insertedId.toHexString())
-      expect(survey?.id).toBeTruthy()
-      expect(survey?.answers).toEqual(result?.answers)
+      expect(survey).toEqual(MongoDbHelper.map(result))
     })
 
     it('Should return null if no survey is found', async () => {
