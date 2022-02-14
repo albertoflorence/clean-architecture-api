@@ -1,10 +1,33 @@
-import { AddSurveyRepository, LoadSurveysRepository } from '@/data/protocols'
-import { Collection } from 'mongodb'
+import {
+  AddSurveyRepository,
+  LoadSurveysRepository,
+  LoadSurveyByIdRepository
+} from '@/data/protocols'
+import { Collection, ObjectId } from 'mongodb'
 import { MongoDbHelper } from '@/infra/db'
 
 export class SurveyMongoRepository
-  implements AddSurveyRepository, LoadSurveysRepository
+  implements
+    AddSurveyRepository,
+    LoadSurveysRepository,
+    LoadSurveyByIdRepository
 {
+  async add(data: AddSurveyRepository.Params): AddSurveyRepository.Result {
+    await this.collection.insertOne(data)
+  }
+
+  async load(): LoadSurveysRepository.Result {
+    const surveys = await this.collection.find().toArray()
+    return this.mapCollection(surveys)
+  }
+
+  async loadById(id: string): LoadSurveyByIdRepository.Result {
+    const survey = await this.collection.findOne({ _id: new ObjectId(id) })
+    console.log(survey)
+    console.log(this.map(survey))
+    return this.map(survey)
+  }
+
   private get collection(): Collection {
     return MongoDbHelper.getCollection('surveys')
   }
@@ -13,12 +36,7 @@ export class SurveyMongoRepository
     return MongoDbHelper.mapCollection(collection)
   }
 
-  async add(data: AddSurveyRepository.Params): AddSurveyRepository.Result {
-    await this.collection.insertOne(data)
-  }
-
-  async load(): LoadSurveysRepository.Result {
-    const surveys = await this.collection.find().toArray()
-    return this.mapCollection(surveys)
+  private map(data: any): any {
+    return MongoDbHelper.map(data)
   }
 }
