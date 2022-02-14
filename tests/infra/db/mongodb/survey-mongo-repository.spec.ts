@@ -58,5 +58,11 @@ describe('Survey Mongo Repository', () => {
       expect(survey?.id).toBeTruthy()
       expect(survey?.answers).toEqual(result?.answers)
     })
+
+    it('Should return null if no survey is found', async () => {
+      const sut = makeSut()
+      const survey = await sut.loadById('6209e3c3c52901c833e1b2f6')
+      expect(survey).toBeNull()
+    })
   })
 })
