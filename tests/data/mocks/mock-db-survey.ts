@@ -10,6 +10,7 @@ import {
   LoadSurveyByIdRepository
 } from '@/data/protocols'
 import { LoadSurveyById } from '@/domain/usecases'
+import { SurveyModel } from '@/domain/models'
 
 export class AddSurveyRepositoryStub implements AddSurveyRepository {
   params: AddSurveyRepository.Params = defaultValues(mockAddSurveyParams())
@@ -27,7 +28,7 @@ export class LoadSurveysRepositoryStub implements LoadSurveysRepository {
 
 export class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
   id: string = ''
-  result = mockSurveyModel()
+  result: SurveyModel | null = mockSurveyModel()
   async loadById(id: string): LoadSurveyById.Result {
     this.id = id
     return this.result
