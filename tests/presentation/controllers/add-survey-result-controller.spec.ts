@@ -4,7 +4,7 @@ import {
   LoadSurveyByIdStub
 } from '@/tests/presentation/mocks'
 import { HttpRequest } from '@/presentation/protocols'
-import { forbidden, serverError } from '@/presentation/helpers'
+import { forbidden, serverError, ok } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 import { throwError } from '@/tests/domain/mocks'
 
@@ -78,5 +78,11 @@ describe('AddSurveyResult Controller', () => {
       question: loadSurveyByIdStub.result?.question,
       date: new Date()
     })
+  })
+
+  it('Should return 200 on success', async () => {
+    const { sut, addSurveyResult } = makeSut()
+    const httpResponse = await sut.handler(mockRequest())
+    expect(httpResponse).toEqual(ok(addSurveyResult.result))
   })
 })
