@@ -14,7 +14,7 @@ export const loginPath = {
     responses: {
       200: {
         description: 'Sucesso',
-        concent: {
+        content: {
           'application/json': {
             schema: {
               $ref: '#/schemas/account'
