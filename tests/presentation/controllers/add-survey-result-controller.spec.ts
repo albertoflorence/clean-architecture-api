@@ -1,5 +1,8 @@
 import { AddSurveyResultController } from '@/presentation/controllers'
-import { LoadSurveyByIdStub } from '@/tests/presentation/mocks'
+import {
+  AddSurveyResultStub,
+  LoadSurveyByIdStub
+} from '@/tests/presentation/mocks'
 import { HttpRequest } from '@/presentation/protocols'
 import { forbidden, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
@@ -8,13 +11,15 @@ import { throwError } from '@/tests/domain/mocks'
 interface SutTypes {
   sut: AddSurveyResultController
   loadSurveyByIdStub: LoadSurveyByIdStub
+  addSurveyResult: AddSurveyResultStub
 }
 
 const makeSut = (): SutTypes => {
   const loadSurveyByIdStub = new LoadSurveyByIdStub()
-  const sut = new AddSurveyResultController(loadSurveyByIdStub)
+  const addSurveyResult = new AddSurveyResultStub()
+  const sut = new AddSurveyResultController(loadSurveyByIdStub, addSurveyResult)
 
-  return { sut, loadSurveyByIdStub }
+  return { sut, loadSurveyByIdStub, addSurveyResult }
 }
 
 const mockRequest = (): HttpRequest => ({
@@ -23,11 +28,12 @@ const mockRequest = (): HttpRequest => ({
   },
   body: {
     answer: 'any_answer'
-  }
+  },
+  accountId: 'any_account_id'
 })
 
 describe('AddSurveyResult Controller', () => {
-  it('Should return LoadSurveyById with correct values', async () => {
+  it('Should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     await sut.handler(mockRequest())
     expect('any_survey_id').toEqual(loadSurveyByIdStub.id)
@@ -57,5 +63,20 @@ describe('AddSurveyResult Controller', () => {
     }
     const httpResponse = await sut.handler(request)
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
+  })
+
+  it('Should call AddSurveyResult with correct values', async () => {
+    const { sut, addSurveyResult, loadSurveyByIdStub } = makeSut()
+    const { body, params, accountId } = mockRequest()
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date())
+    await sut.handler(mockRequest())
+    expect(addSurveyResult.params).toEqual({
+      surveyId: params.surveyId,
+      accountId: accountId,
+      answer: body.answer,
+      question: loadSurveyByIdStub.result?.question,
+      date: new Date()
+    })
   })
 })
