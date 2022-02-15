@@ -1,12 +1,13 @@
 import { badRequest, unauthorized, serverError, forbidden } from './components'
-import { loginPath, surveyPath } from './paths'
+import { loginPath, surveyPath, signUpPath } from './paths'
 import {
   accountSchema,
   loginParamsSchema,
   errorSchema,
   surveysSchema,
   surveySchema,
-  surveyAnswerSchema
+  surveyAnswerSchema,
+  signUpParamsSchema
 } from './schemas'
 import { apiKeyAuthSchema } from './schemas/api-key-auth-schema'
 
@@ -24,14 +25,19 @@ export default {
   },
   servers: [{ url: '/api' }],
   tags: [{ name: 'Login' }, { name: 'Enquete' }],
-  paths: { '/login': loginPath, '/surveys': surveyPath },
+  paths: {
+    '/login': loginPath,
+    '/surveys': surveyPath,
+    '/signUp': signUpPath
+  },
   schemas: {
     account: accountSchema,
     loginParams: loginParamsSchema,
     error: errorSchema,
     surveys: surveysSchema,
     survey: surveySchema,
-    surveyAnswer: surveyAnswerSchema
+    surveyAnswer: surveyAnswerSchema,
+    signUpParams: signUpParamsSchema
   },
   components: {
     securitySchemes: {
