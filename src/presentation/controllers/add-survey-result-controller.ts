@@ -9,7 +9,12 @@ export class AddSurveyResultController implements Controller {
     try {
       const { surveyId } = httpRequest.params
       const survey = await this.loadSurveyById.loadById(surveyId)
-      if (survey === null) return forbidden(new InvalidParamError('surveyId'))
+      if (!survey) return forbidden(new InvalidParamError('surveyId'))
+
+      const { answer } = httpRequest.body
+      const isValid = survey.answers.some(item => answer === item.answer)
+      if (!isValid) return forbidden(new InvalidParamError('answer'))
+
       return ok({})
     } catch (error) {
       return serverError(error)
