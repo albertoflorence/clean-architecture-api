@@ -20,7 +20,7 @@ export class AddSurveyResultController implements Controller {
       if (!isValid) return forbidden(new InvalidParamError('answer'))
 
       const accountId = httpRequest.accountId as string
-      await this.addSurveyResult.add({
+      const surveyResult = await this.addSurveyResult.add({
         surveyId,
         accountId,
         answer,
@@ -28,7 +28,7 @@ export class AddSurveyResultController implements Controller {
         date: new Date()
       })
 
-      return ok({})
+      return ok(surveyResult)
     } catch (error) {
       return serverError(error)
     }
