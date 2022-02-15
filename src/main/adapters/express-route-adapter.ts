@@ -4,7 +4,9 @@ import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 export const adaptRoute =
   (controller: Controller) => (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
-      body: req.body
+      body: req.body,
+      headers: req.headers,
+      params: req.params
     }
     void controller
       .handler(httpRequest)

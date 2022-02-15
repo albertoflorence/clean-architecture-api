@@ -6,7 +6,8 @@ export const adaptMiddleware =
   (req: Request, res: Response, next: NextFunction) => {
     const httpRequest: HttpRequest = {
       body: req.body,
-      headers: req.headers
+      headers: req.headers,
+      params: req.params
     }
 
     void middleware
