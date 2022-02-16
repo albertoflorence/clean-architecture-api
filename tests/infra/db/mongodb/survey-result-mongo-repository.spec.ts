@@ -1,24 +1,12 @@
 import { MongoDbHelper, SurveyResultMongoRepository } from '@/infra/db'
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { mockMongoAccount, mockMongoSurvey } from '@/tests/infra/db'
-import { AddSurveyResult } from '@/domain/usecases'
+import { AddSurveyResultRepository } from '@/data/protocols'
 
 let surveyResultCollection: Collection
 
 const makeSut = (): SurveyResultMongoRepository => {
   return new SurveyResultMongoRepository()
-}
-
-const mockSurveyResultParams = async (): Promise<AddSurveyResult.Params> => {
-  const account = await mockMongoAccount()
-  const survey = await mockMongoSurvey()
-  return {
-    accountId: account.id,
-    surveyId: survey.id,
-    question: survey.question,
-    answer: survey.answers[0].answer,
-    date: new Date()
-  }
 }
 
 describe('Survey Result Mongo Repository', () => {
@@ -41,24 +29,44 @@ describe('Survey Result Mongo Repository', () => {
     it('Should add a survey result', async () => {
       const sut = makeSut()
       const surveyResultParams = await mockSurveyResultParams()
-      const { id, ...result } = await sut.add(surveyResultParams)
-
-      expect(result).toEqual(surveyResultParams)
+      await sut.add(surveyResultParams)
+      const survey = await findSurveyResult(surveyResultParams)
+      expect(survey).toBeTruthy()
     })
 
     it('Should update the survey result if one already exist', async () => {
       const sut = makeSut()
       const surveyResultParams = await mockSurveyResultParams()
-      await surveyResultCollection.insertOne(surveyResultParams)
-      const updateSurveyResult = {
+      const updateSurveyResultParams = {
         ...surveyResultParams,
         date: new Date(),
-        answer: 'new_answer'
+        answer: 'any_answer'
       }
-      const result = await sut.add(updateSurveyResult)
-
+      await sut.add(updateSurveyResultParams)
+      const survey = await findSurveyResult(updateSurveyResultParams)
+      expect(survey).toBeTruthy()
       expect(await surveyResultCollection.countDocuments()).toBe(1)
-      expect(result).toEqual(MongoDbHelper.map(updateSurveyResult))
     })
   })
 })
+
+const mockSurveyResultParams =
+  async (): Promise<AddSurveyResultRepository.Params> => {
+    const account = await mockMongoAccount()
+    const survey = await mockMongoSurvey()
+    return {
+      accountId: account.id,
+      surveyId: survey.id,
+      answer: survey.answers[0].answer,
+      date: new Date()
+    }
+  }
+
+const findSurveyResult = async (
+  surveyParams: AddSurveyResultRepository.Params
+): Promise<any> =>
+  await surveyResultCollection.findOne({
+    ...surveyParams,
+    surveyId: new ObjectId(surveyParams.surveyId),
+    accountId: new ObjectId(surveyParams.accountId)
+  })

@@ -24,7 +24,6 @@ export class AddSurveyResultController implements Controller {
         surveyId,
         accountId,
         answer,
-        question: survey.question,
         date: new Date()
       })
 

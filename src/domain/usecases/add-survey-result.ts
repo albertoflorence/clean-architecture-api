@@ -8,7 +8,6 @@ export namespace AddSurveyResult {
   export interface Params {
     surveyId: string
     accountId: string
-    question: string
     answer: string
     date: Date
   }

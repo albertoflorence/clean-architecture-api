@@ -66,7 +66,7 @@ describe('AddSurveyResult Controller', () => {
   })
 
   it('Should call AddSurveyResult with correct values', async () => {
-    const { sut, addSurveyResult, loadSurveyByIdStub } = makeSut()
+    const { sut, addSurveyResult } = makeSut()
     const { body, params, accountId } = mockRequest()
     jest.useFakeTimers()
     jest.setSystemTime(new Date())
@@ -75,7 +75,6 @@ describe('AddSurveyResult Controller', () => {
       surveyId: params.surveyId,
       accountId: accountId,
       answer: body.answer,
-      question: loadSurveyByIdStub.result?.question,
       date: new Date()
     })
   })
