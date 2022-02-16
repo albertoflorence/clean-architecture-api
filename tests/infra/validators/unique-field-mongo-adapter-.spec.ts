@@ -13,12 +13,12 @@ describe('Unique Field Mongo Adapter', () => {
   })
 
   beforeEach(async () => {
-    collection = MongoDbHelper.getCollection('any_collection')
+    collection = MongoDbHelper.getCollection('test')
     await collection.deleteMany({})
   })
 
   const makeSut = (): UniqueFieldMongoAdapter => {
-    return new UniqueFieldMongoAdapter('any_collection')
+    return new UniqueFieldMongoAdapter('test')
   }
 
   it('Should return false if the value already exist', async () => {

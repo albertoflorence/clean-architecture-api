@@ -12,7 +12,7 @@ export const MongoDbHelper = {
     await client.close()
   },
 
-  getCollection(name: string): Collection {
+  getCollection(name: CollectionName): Collection {
     return client.db().collection(name)
   },
 
@@ -28,3 +28,10 @@ export const MongoDbHelper = {
     return collection.map(c => MongoDbHelper.map(c))
   }
 }
+
+export type CollectionName =
+  | 'test'
+  | 'accounts'
+  | 'surveys'
+  | 'surveyResults'
+  | 'errors'

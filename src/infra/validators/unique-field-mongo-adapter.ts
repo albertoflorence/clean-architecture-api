@@ -1,9 +1,9 @@
 import { UniqueValidator } from '@/validation/protocols'
 import { Collection } from 'mongodb'
-import { MongoDbHelper } from '@/infra/db'
+import { CollectionName, MongoDbHelper } from '@/infra/db'
 
 export class UniqueFieldMongoAdapter implements UniqueValidator {
-  constructor(private readonly collectionName: string) {}
+  constructor(private readonly collectionName: CollectionName) {}
 
   get collection(): Collection {
     return MongoDbHelper.getCollection(this.collectionName)
