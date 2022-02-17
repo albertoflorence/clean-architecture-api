@@ -4,7 +4,11 @@ import {
   mockAddSurveyResultParams,
   mockSurveyResultModel
 } from '@/tests/domain/mocks'
-import { AddSurveyResultRepository } from '@/data/protocols'
+import {
+  AddSurveyResultRepository,
+  LoadSurveyResultRepository
+} from '@/data/protocols'
+import { SurveyResultModel } from '@/domain/models'
 
 export class AddSurveyResultRepositoryStub
   implements AddSurveyResultRepository
@@ -13,6 +17,18 @@ export class AddSurveyResultRepositoryStub
   result = mockSurveyResultModel()
   async add(data: AddSurveyResult.Params): AddSurveyResult.Result {
     this.params = data
+    return this.result
+  }
+}
+
+export class LoadSurveyResultRepositoryStub
+  implements LoadSurveyResultRepository
+{
+  surveyId = ''
+  result: SurveyResultModel | null = mockSurveyResultModel()
+
+  async loadBySurveyId(surveyId: string): LoadSurveyResultRepository.Result {
+    this.surveyId = surveyId
     return this.result
   }
 }
