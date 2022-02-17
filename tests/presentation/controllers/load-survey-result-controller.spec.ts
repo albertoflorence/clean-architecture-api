@@ -4,7 +4,7 @@ import {
 } from '@/tests/presentation/mocks'
 import { LoadSurveyResultController } from '@/presentation/controllers'
 import { HttpRequest } from '@/presentation/protocols'
-import { forbidden, serverError } from '@/presentation/helpers'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { throwError } from '@/tests/domain/mocks'
 import { InvalidParamError } from '@/presentation/errors'
 
@@ -59,5 +59,11 @@ describe('Load Survey Result Controller', () => {
     await sut.handler(mockRequest())
     expect(loadSurveyResultStub.surveyId).toBe('any_survey_id')
     expect(loadSurveyResultStub.accountId).toBe('any_account_id')
+  })
+
+  it('Should return 200 on success', async () => {
+    const { sut, loadSurveyResultStub } = makeSut()
+    const httpResponse = await sut.handler(mockRequest())
+    expect(httpResponse).toEqual(ok(loadSurveyResultStub.result))
   })
 })
