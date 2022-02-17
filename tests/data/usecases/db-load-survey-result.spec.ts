@@ -22,4 +22,10 @@ describe('Db Load Survey Result', () => {
     await sut.load('any_id')
     expect(loadSurveyResultRepositoryStub.surveyId).toBe('any_id')
   })
+
+  it('Should return a survey result on success', async () => {
+    const { sut, loadSurveyResultRepositoryStub } = makeSut()
+    const result = await sut.load('any_id')
+    expect(result).toBe(loadSurveyResultRepositoryStub.result)
+  })
 })
