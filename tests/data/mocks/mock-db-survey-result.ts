@@ -1,4 +1,3 @@
-import { AddSurveyResult } from '@/domain/usecases'
 import {
   defaultValues,
   mockAddSurveyResultParams,
@@ -14,10 +13,10 @@ export class AddSurveyResultRepositoryStub
   implements AddSurveyResultRepository
 {
   params = defaultValues(mockAddSurveyResultParams())
-  result = mockSurveyResultModel()
-  async add(data: AddSurveyResult.Params): AddSurveyResult.Result {
+  async add(
+    data: AddSurveyResultRepository.Params
+  ): AddSurveyResultRepository.Result {
     this.params = data
-    return this.result
   }
 }
 

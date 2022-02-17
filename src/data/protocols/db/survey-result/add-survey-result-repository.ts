@@ -8,5 +8,5 @@ export interface AddSurveyResultRepository {
 
 export namespace AddSurveyResultRepository {
   export type Params = AddSurveyResult.Params
-  export type Result = AddSurveyResult.Result
+  export type Result = Promise<void>
 }

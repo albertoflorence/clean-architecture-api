@@ -24,7 +24,7 @@ export class SurveyResultMongoRepository
   async loadBySurveyId(
     surveyId: string,
     accountId: string
-  ): Promise<SurveyResultModel | null> {
+  ): LoadSurveyResultRepository.Result {
     const query = new QueryBuilder()
       .match({
         surveyId: new ObjectId(surveyId)
