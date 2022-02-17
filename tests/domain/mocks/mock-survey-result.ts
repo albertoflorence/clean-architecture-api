@@ -1,5 +1,5 @@
-import { SurveyResultModel } from '../models'
-import { AddSurveyResult } from '../usecases'
+import { SurveyModel, SurveyResultModel } from '@/domain/models'
+import { AddSurveyResult } from '@/domain/usecases'
 
 const fakeDate = new Date()
 export const mockAddSurveyResultParams = (): AddSurveyResult.Params => ({
@@ -15,9 +15,27 @@ export const mockSurveyResultModel = (): SurveyResultModel => ({
   answers: [
     {
       answer: 'any_answer',
-      count: 2,
+      count: 1,
+      percent: 50
+    },
+    {
+      answer: 'other_answer',
+      count: 1,
       percent: 50
     }
   ],
   date: fakeDate
+})
+
+export const makeEmptySurveyResult = (
+  survey: SurveyModel
+): SurveyResultModel => ({
+  question: survey.question,
+  surveyId: survey.id,
+  date: survey.date,
+  answers: survey.answers.map(answer => ({
+    ...answer,
+    count: 0,
+    percent: 0
+  }))
 })
