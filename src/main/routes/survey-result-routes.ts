@@ -9,4 +9,5 @@ export default (router: Router): void => {
     auth(),
     adaptRoute(makeAddSurveyResultController())
   )
+  router.get('/surveys/:surveyId/results', auth())
 }
