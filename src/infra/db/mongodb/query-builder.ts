@@ -4,7 +4,6 @@ interface Query {
   $unwind?: object
   $lookup?: object
   $project?: object
-  $addFields?: object
   $sort?: object
 }
 
@@ -42,13 +41,6 @@ export class QueryBuilder {
   project(data: object): QueryBuilder {
     this.query.push({
       $project: data
-    })
-    return this
-  }
-
-  addFields(data: object): QueryBuilder {
-    this.query.push({
-      $addFields: data
     })
     return this
   }
