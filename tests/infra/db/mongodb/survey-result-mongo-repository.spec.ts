@@ -1,7 +1,12 @@
+import { Collection } from 'mongodb'
 import { MongoDbHelper, SurveyResultMongoRepository } from '@/infra/db'
-import { Collection, ObjectId } from 'mongodb'
-import { mockMongoAccount, mockMongoSurvey } from '@/tests/infra/db'
-import { AddSurveyResultRepository } from '@/data/protocols'
+import {
+  mockMongoSurvey,
+  mockMongoAccount,
+  findSurveyResult,
+  mockMongoSurveyResult,
+  mockSurveyResultParams
+} from '@/tests/infra/db'
 
 let surveyResultCollection: Collection
 
@@ -48,25 +53,24 @@ describe('Survey Result Mongo Repository', () => {
       expect(await surveyResultCollection.countDocuments()).toBe(1)
     })
   })
-})
 
-const mockSurveyResultParams =
-  async (): Promise<AddSurveyResultRepository.Params> => {
-    const account = await mockMongoAccount()
-    const survey = await mockMongoSurvey()
-    return {
-      accountId: account.id,
-      surveyId: survey.id,
-      answer: survey.answers[0].answer,
-      date: new Date()
-    }
-  }
+  describe('loadBySurveyId', () => {
+    it('Should load survey result', async () => {
+      const sut = makeSut()
+      const account = await mockMongoAccount()
+      const survey = await mockMongoSurvey()
+      await mockMongoSurveyResult([
+        await mockSurveyResultParams(survey, account, 0),
+        await mockSurveyResultParams(survey, undefined, 0),
+        await mockSurveyResultParams(survey, undefined, 0),
+        await mockSurveyResultParams(survey, undefined, 1)
+      ])
 
-const findSurveyResult = async (
-  surveyParams: AddSurveyResultRepository.Params
-): Promise<any> =>
-  await surveyResultCollection.findOne({
-    ...surveyParams,
-    surveyId: new ObjectId(surveyParams.surveyId),
-    accountId: new ObjectId(surveyParams.accountId)
+      const result = await sut.loadBySurveyId(survey.id, account.id)
+      expect(result?.answers[0].count).toBe(3)
+      expect(result?.answers[0].percent).toBe(75)
+      expect(result?.answers[1].count).toBe(1)
+      expect(result?.answers[1].percent).toBe(25)
+    })
   })
+})
