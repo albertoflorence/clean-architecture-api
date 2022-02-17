@@ -1,7 +1,10 @@
 import { LoadSurveyResult } from '@/domain/usecases'
 
 export interface LoadSurveyResultRepository {
-  loadBySurveyId: (surveyId: string) => LoadSurveyResultRepository.Result
+  loadBySurveyId: (
+    surveyId: string,
+    accountId: string
+  ) => LoadSurveyResultRepository.Result
 }
 
 export namespace LoadSurveyResultRepository {

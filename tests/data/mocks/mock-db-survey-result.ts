@@ -25,10 +25,15 @@ export class LoadSurveyResultRepositoryStub
   implements LoadSurveyResultRepository
 {
   surveyId = ''
+  accountId = ''
   result: SurveyResultModel | null = mockSurveyResultModel()
 
-  async loadBySurveyId(surveyId: string): LoadSurveyResultRepository.Result {
+  async loadBySurveyId(
+    surveyId: string,
+    accountId: string
+  ): LoadSurveyResultRepository.Result {
     this.surveyId = surveyId
+    this.accountId = accountId
     return this.result
   }
 }

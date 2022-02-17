@@ -1,9 +1,14 @@
-import { AddSurveyResultRepository } from '@/data/protocols'
+import {
+  AddSurveyResultRepository,
+  LoadSurveyResultRepository
+} from '@/data/protocols'
 import { Collection, ObjectId } from 'mongodb'
 import { MongoDbHelper, QueryBuilder } from '@/infra/db'
 import { SurveyResultModel } from '@/domain/models'
 
-export class SurveyResultMongoRepository implements AddSurveyResultRepository {
+export class SurveyResultMongoRepository
+  implements AddSurveyResultRepository, LoadSurveyResultRepository
+{
   async add(
     data: AddSurveyResultRepository.Params
   ): AddSurveyResultRepository.Result {

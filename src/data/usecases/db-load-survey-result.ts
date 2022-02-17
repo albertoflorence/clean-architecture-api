@@ -6,7 +6,10 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
     private readonly loadSurveyResultRepository: LoadSurveyResultRepository
   ) {}
 
-  async load(surveyId: string): LoadSurveyResult.Result {
-    return await this.loadSurveyResultRepository.loadBySurveyId(surveyId)
+  async load(surveyId: string, accountId: string): LoadSurveyResult.Result {
+    return await this.loadSurveyResultRepository.loadBySurveyId(
+      surveyId,
+      accountId
+    )
   }
 }
