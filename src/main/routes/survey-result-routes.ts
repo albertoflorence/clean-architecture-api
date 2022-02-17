@@ -1,7 +1,10 @@
 import { Router } from 'express'
 import { adaptRoute } from '@/main/adapters'
 import { auth } from '@/main/middlewares'
-import { makeAddSurveyResultController } from '@/main/factories'
+import {
+  makeAddSurveyResultController,
+  makeLoadSurveyResultController
+} from '@/main/factories'
 
 export default (router: Router): void => {
   router.put(
@@ -9,5 +12,10 @@ export default (router: Router): void => {
     auth(),
     adaptRoute(makeAddSurveyResultController())
   )
-  router.get('/surveys/:surveyId/results', auth())
+
+  router.get(
+    '/surveys/:surveyId/results',
+    auth(),
+    adaptRoute(makeLoadSurveyResultController())
+  )
 }
